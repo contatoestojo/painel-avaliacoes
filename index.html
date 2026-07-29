@@ -402,8 +402,57 @@
   .adm-b.resp.off{opacity:.5;cursor:not-allowed;border-style:dashed;}
   .adm-b.resp.off:hover{border-color:var(--line);}
   .adm-cc{font-size:11px;color:var(--faint);font-family:var(--mono);margin-left:auto;}
+  /* ===== Login do Balcao ===== */
+  .login-gate{position:fixed;inset:0;z-index:200;background:var(--paper);display:flex;
+    align-items:center;justify-content:center;padding:20px;}
+  .login-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+    padding:32px 28px;max-width:360px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.15);text-align:center;box-sizing:border-box;}
+  .lg-crown{font-size:34px;line-height:1;}
+  .login-card h2{margin:10px 0 2px;font-weight:700;color:var(--accent);font-size:20px;}
+  .login-card p{margin:0 0 20px;font-size:13px;color:var(--muted);}
+  .login-card input{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:10px;
+    background:var(--surface-2);color:var(--ink);font-family:inherit;font-size:15px;margin-bottom:10px;box-sizing:border-box;}
+  .login-card input:focus{outline:none;border-color:var(--accent);}
+  .login-err{color:var(--bad);font-size:12.5px;min-height:16px;margin-bottom:8px;}
+  .login-card button{width:100%;border:0;background:var(--accent);color:#fff;font-family:inherit;
+    font-weight:700;font-size:15px;padding:12px;border-radius:10px;cursor:pointer;}
+  .login-card button:hover{filter:brightness(1.08);}
 </style>
 
+<div class="login-gate" id="loginGate">
+  <form class="login-card" id="loginForm" autocomplete="on">
+    <div class="lg-crown">👑</div>
+    <h2>Painel de Avaliações</h2>
+    <p>Rei dos Estojos · acesso da equipe</p>
+    <input id="loginUser" placeholder="Usuário" autocomplete="username" autocapitalize="off" spellcheck="false">
+    <input id="loginPass" type="password" placeholder="Senha" autocomplete="current-password">
+    <div class="login-err" id="loginErr"></div>
+    <button type="submit">Entrar</button>
+  </form>
+</div>
+<script>
+(function(){
+  var U="vendas40", P="1234";
+  function authed(){ try{ return localStorage.getItem("balcaoOk")==="1"; }catch(e){ return false; } }
+  var g=document.getElementById("loginGate");
+  if(authed()){ if(g&&g.parentNode) g.parentNode.removeChild(g); return; }
+  document.documentElement.style.overflow="hidden";
+  document.getElementById("loginForm").addEventListener("submit",function(e){
+    e.preventDefault();
+    var u=(document.getElementById("loginUser").value||"").trim().toLowerCase();
+    var p=document.getElementById("loginPass").value||"";
+    if(u===U && p===P){
+      try{ localStorage.setItem("balcaoOk","1"); }catch(e){}
+      document.documentElement.style.overflow="";
+      if(g&&g.parentNode) g.parentNode.removeChild(g);
+    } else {
+      document.getElementById("loginErr").textContent="Usuário ou senha incorretos.";
+      var pp=document.getElementById("loginPass"); if(pp) pp.select();
+    }
+  });
+  setTimeout(function(){ var el=document.getElementById("loginUser"); if(el) el.focus(); },60);
+})();
+</script>
 <header class="topbar">
   <div class="topbar-in">
     <div class="brand">
@@ -416,6 +465,7 @@
     </div>
     <div class="spacer"></div>
     <div class="updated">Atualizado · <b>27 jul 2026</b><br>lido do seu Google</div>
+    <button class="admin-btn" id="admOpen" type="button">🔒 Admin</button>
   </div>
 </header>
 
@@ -623,9 +673,98 @@
     <span><span class="tag prev">prévia</span> ilustrativo — vira dado real com a API</span>
   </div>
 
+  <!-- ADMIN AREA (restrito) -->
+  <div class="eyebrow">Área do administrador · acesso restrito</div>
+  <div class="admin">
+    <div class="admin-note">
+      <div class="lock" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      </div>
+      <p><b>Somente o administrador vê esta área.</b> Login separado do balcão — os vendedores não têm acesso ao que está aqui.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h3>Avaliações que precisam de atenção</h3><span class="tag prev">gestão</span></div>
+      <div class="card-sub">Notas 1–3★ e reclamações a responder, com categoria e status. Só o administrador vê.</div>
+      <div class="attn" id="attn"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h3>Ferramenta de resposta às avaliações</h3><span class="tag prev">fase 2</span></div>
+      <div class="card-sub">A IA sugere uma resposta para cada avaliação (positiva ou negativa), você edita e publica direto no Google — com contador de “respondidas × pendentes”. Entra depois que o painel do balcão estiver no ar.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h3>Como você está frente a concorrentes próximos</h3><span class="tag prev">entra com a API</span></div>
+      <div class="card-sub">Com a API acompanhamos a nota e o nº de avaliações de lojas concorrentes reais.</div>
+      <div style="overflow-x:auto">
+        <table class="comp">
+          <thead><tr><th>Loja</th><th class="num">Nota</th><th class="num">Avaliações</th></tr></thead>
+          <tbody>
+            <tr class="you"><td class="name">Rei dos Estojos <span class="mininote">— você</span></td><td class="num">4,6</td><td class="num">1.174</td></tr>
+            <tr><td>Concorrente A <span class="mininote">(exemplo)</span></td><td class="num">4,3</td><td class="num">612</td></tr>
+            <tr><td>Concorrente B <span class="mininote">(exemplo)</span></td><td class="num">4,1</td><td class="num">388</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
   <div class="foot">Protótipo · Rei dos Estojos · atualizado em 27/07/2026</div>
 </div>
 
+
+<!-- ===== ADMIN: acesso + ferramenta de respostas (Fase 2) ===== -->
+<div class="adm-gate" id="admGate" role="dialog" aria-modal="true" aria-label="Acesso do administrador">
+  <div class="adm-card">
+    <h3>🔒 Acesso do administrador</h3>
+    <p>Área restrita — ferramenta de respostas. Somente o Pedro.</p>
+    <input type="password" id="admPin" placeholder="Senha" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <div class="adm-err" id="admErr"></div>
+    <div class="row">
+      <button class="adm-btn2 ghost" id="admCancel" type="button">Cancelar</button>
+      <button class="adm-btn2" id="admEnter" type="button">Entrar</button>
+    </div>
+  </div>
+</div>
+
+<div class="adm-overlay" id="admOverlay" aria-label="Ferramenta de respostas">
+  <div class="adm-head"><div class="adm-head-in">
+    <span style="font-size:22px">👑</span>
+    <div><p class="adm-title">Respostas com IA</p><p class="adm-sub">Uso interno · gera a resposta, você revisa e publica no Google</p></div>
+    <button class="adm-close" id="admBack" type="button">&larr; Voltar ao painel</button>
+  </div></div>
+  <div class="adm-wrap">
+    <div class="adm-how"><div>
+      <b>Semi-automático</b> — a IA já escreve uma sugestão cordial e curta para cada avaliação, citando o cliente e o vendedor. Enquanto a API do Google não é liberada, você copia e cola a resposta na ficha.
+      <div class="adm-steps">
+        <span class="adm-step"><i>1</i> IA sugere</span>
+        <span class="adm-step"><i>2</i> Você edita se quiser</span>
+        <span class="adm-step"><i>3</i> Copiar → colar no Google</span>
+        <span class="adm-step"><i>4</i> Marcar como respondida</span>
+      </div>
+      <div style="margin-top:9px;font-size:12px;color:var(--muted)"><b style="color:var(--warn)">🔒 Responder no Google</b> publica a resposta direto no Google — <b>ativa quando a API for liberada</b> (pedido reenviado ao Google em 22/07, aguardando retorno). Até lá, use <b>Copiar</b> e cole na ficha.</div>
+    </div></div>
+    <div class="adm-bar">
+      <div class="adm-stat pend"><div class="n" id="admPend">-</div><div class="l">Pendentes</div></div>
+      <div class="adm-stat done"><div class="n" id="admDone">-</div><div class="l">Respondidas</div></div>
+      <div class="adm-stat"><div class="n" id="admTot">-</div><div class="l">Total no lote</div></div>
+    </div>
+    <div class="adm-ctrl">
+      <span>Tom:</span>
+      <div class="adm-seg" id="admToneSeg">
+        <button data-tone="0" aria-pressed="true">Cordial curto</button>
+        <button data-tone="1" aria-pressed="false">Variação</button>
+      </div>
+      <label><input type="checkbox" id="admEmoji" checked> com emoji</label>
+      <label style="margin-left:auto;"><input type="checkbox" id="admHide"> ocultar respondidas</label>
+    </div>
+    <div id="admList"></div>
+    <div style="margin-top:26px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--faint);">
+      <b style="color:var(--muted)">Protótipo · Fase 2.</b> Sugestões escritas pela IA para as avaliações de 27/07/2026. Com a API do Google Business Profile (protocolo 3-1893000041662) liberada, a ferramenta passa a puxar as avaliações e publicar a resposta direto. Assinatura padrão: <b style="color:var(--muted)">— Equipe Rei dos Estojos</b>.
+    </div>
+  </div>
+</div>
 
 <script>
 
@@ -908,7 +1047,160 @@
 })();
 </script>
 
+<script>
+(function(){
+  "use strict";
+  var ADMIN_PIN = "Rei32714631";   // <<< senha do Admin - me peca pra trocar quando quiser
+  var TONE = 0;
+  var API_CONECTADA = false;   // vira true quando a API do Google Business Profile conectar (ai o botao Responder publica direto)
 
+  var admData=[
+    {who:"Isaias Pedro",n:5,d:"há 1 dia",men:"",ans:true,
+     t:"Muito bom o atendimento e muita agilidade.",
+     s:["Olá, Isaias! Obrigado pela avaliação. 😊 Agilidade no atendimento é o que buscamos todo dia — volte sempre! — Equipe Rei dos Estojos",
+        "Oi, Isaias! Que bom que foi rápido e bem atendido. Obrigado pela confiança na Rei dos Estojos! — Equipe Rei dos Estojos"]},
+    {who:"Henrique Luiz",n:5,d:"há 2 dias",men:"Juliana",ans:true,
+     t:"Serviço de excelência! Sempre muito bem atendido pela Juliana, sempre prestativa!",
+     s:["Olá, Henrique! A Juliana é prestativa mesmo. 😊 Vamos passar seu elogio pra ela. Obrigado por ser sempre nosso cliente! — Equipe Rei dos Estojos",
+        "Oi, Henrique! Que bom te ter sempre por aqui — a Juliana vai adorar saber do seu carinho. Obrigado! — Equipe Rei dos Estojos"]},
+    {who:"Elias Torrent",n:5,d:"há 2 dias",men:"Silvio",ans:true,
+     t:"Atendimento excelente, parabéns Silvio.",
+     s:["Olá, Elias! Obrigado pelo elogio — o Silvio vai ficar muito feliz. 😊 Conte sempre com a gente! — Equipe Rei dos Estojos",
+        "Oi, Elias! Que bom que o Silvio caprichou no seu atendimento. Obrigado pela avaliação! — Equipe Rei dos Estojos"]},
+    {who:"Alfredo Costa",n:5,d:"há 2 dias",men:"Silvio",ans:true,
+     t:"Excelente atendimento do vendedor Silvio! Recomendo!",
+     s:["Olá, Alfredo! Obrigado pela recomendação. 😊 O Silvio vai ficar muito feliz com seu elogio. Volte sempre! — Equipe Rei dos Estojos",
+        "Oi, Alfredo! Que satisfação ler isso — vamos compartilhar seu elogio com o Silvio. Obrigado pela confiança! — Equipe Rei dos Estojos"]},
+    {who:"Jeferson Sargaço",n:5,d:"há 2 dias",men:"Patrícia",ans:true,
+     t:"Ótimo local para pequenos reparos em relógios, preço justo, atendimento nota 10. A Patrícia me atendeu, uma simpatia. Parabéns!",
+     s:["Olá, Jeferson! Preço justo e atendimento nota 10 é o que buscamos. 😊 A Patrícia agradece o carinho. Obrigado pela confiança! — Equipe Rei dos Estojos",
+        "Oi, Jeferson! Que bom que o reparo e o atendimento da Patrícia agradaram. Obrigado — volte sempre! — Equipe Rei dos Estojos"]},
+    {who:"Sergio CR",n:5,d:"há 5 dias",men:"",ans:false,
+     t:"Excelente atendimento.",
+     s:["Olá, Sergio! Obrigado pela avaliação. 😊 Ficamos felizes que o atendimento foi excelente — conte sempre com a gente! — Equipe Rei dos Estojos",
+        "Oi, Sergio! Que bom saber disso. Obrigado pela confiança na Rei dos Estojos — volte sempre! — Equipe Rei dos Estojos"]},
+    {who:"Cláudio Simão",n:5,d:"há 9 dias",men:"",ans:true,
+     t:"O Rei dos Estojos é referência no mercado relojoeiro em BH: um time habilidoso, com excelente conhecimento técnico, presteza e boa vontade em trazer soluções ao cliente.",
+     s:["Olá, Cláudio! Que avaliação generosa — obrigado! 😊 Nosso time vai adorar saber que o conhecimento técnico e o cuidado fizeram a diferença. Conte sempre com a gente! — Equipe Rei dos Estojos",
+        "Oi, Cláudio! Ser referência pra você é uma honra. Obrigado pelo reconhecimento ao nosso time — voltamos a te atender quando precisar! — Equipe Rei dos Estojos"]},
+    {who:"Martinez",n:5,d:"há 9 dias",men:"Shirley",ans:false,
+     t:"Excelente loja, atendimento profissional, encontrei tudo que precisava — atendido por Shirley. Muito obrigado!",
+     s:["Olá, Martinez! Que bom que encontrou tudo e foi tão bem atendido pela Shirley. 😊 Vamos passar seu elogio pra ela. Obrigado pela confiança! — Equipe Rei dos Estojos",
+        "Oi, Martinez! A Shirley vai ficar feliz com seu comentário. Obrigado por escolher a Rei dos Estojos — volte sempre! — Equipe Rei dos Estojos"]},
+    {who:"Cibele Barbosa",n:5,d:"há 9 dias",men:"Tatiane",ans:true,
+     t:"A Tatiane atende maravilhosamente, o atendimento é sempre impecável! 😍",
+     s:["Olá, Cibele! A Tatiane é atenciosa mesmo, né? 😍 Obrigado pelo carinho — vamos compartilhar seu elogio com ela. Volte sempre! — Equipe Rei dos Estojos",
+        "Oi, Cibele! Que alegria saber que a Tatiane te atende tão bem. Obrigado pela avaliação! — Equipe Rei dos Estojos"]},
+    {who:"Paulino Ribeiro Advocacia",n:5,d:"há 10 dias",men:"",ans:true,
+     t:"A melhor relojoaria de BH!",
+     s:["Olá, Paulino! \"A melhor relojoaria de BH\" é um baita elogio — obrigado! 😊 Contamos com sua próxima visita. — Equipe Rei dos Estojos",
+        "Oi, Paulino! Que honra ler isso. Obrigado pela confiança na Rei dos Estojos! — Equipe Rei dos Estojos"]},
+    {who:"André Oliveira",n:1,d:"há 6 meses",men:"",ans:true,att:true,
+     t:"Minha esposa levou o relógio para trocar a bateria; depois de desmontado, disseram que o ponteiro do cronógrafo estava solto e cobraram para colocar no lugar.",
+     s:["Olá, André. Sentimos muito pela experiência. Em cronógrafos, é comum identificarmos folgas já existentes só na abertura, e por isso sempre avisamos antes de qualquer ajuste. Gostaríamos de entender melhor o seu caso — pode nos chamar no (31) 3271-4631? Ficamos à disposição para ajudar. — Equipe Rei dos Estojos",
+        "Oi, André. Lamentamos o ocorrido e agradecemos o retorno. Nossa intenção é sempre a transparência: quando encontramos alguma irregularidade, informamos antes de agir. Queremos resolver isso com você — entre em contato pelo (31) 3271-4631. — Equipe Rei dos Estojos"]}
+  ];
+
+  var AV_CORES=["#4B49A8","#0F8A7E","#B5761A","#B04A64","#2E7D4F","#6D4C9E","#2C6BAF","#8A5A3C"];
+  function avLetra(n){ n=(n||"").trim(); return n? n.charAt(0).toUpperCase() : "?"; }
+  function avCor(n){ n=(n||""); var h=0; for(var i=0;i<n.length;i++){ h=(h*31+n.charCodeAt(i))>>>0; }
+    return AV_CORES[h%AV_CORES.length]; }
+  function avatar(n,cls){ return '<span class="'+(cls||"rev-av")+'" aria-hidden="true" style="background:'+avCor(n)+'">'+avLetra(n)+'</span>'; }
+  var $=function(id){return document.getElementById(id);};
+  var gate=$("admGate"), overlay=$("admOverlay"), pin=$("admPin"), err=$("admErr");
+
+  // sessionStorage pode lancar SecurityError em file:// — nunca deixar quebrar a tela
+  function ssGet(k){ try{ return sessionStorage.getItem(k); }catch(e){ return null; } }
+  function ssSet(k,v){ try{ sessionStorage.setItem(k,v); }catch(e){} }
+  function openTool(){ gate.classList.remove("on"); overlay.classList.add("on"); document.body.style.overflow="hidden"; render(); }
+  function openGate(){
+    if(ssGet("admOk")==="1"){ openTool(); return; }
+    err.textContent=""; pin.value=""; gate.classList.add("on"); setTimeout(function(){pin.focus();},50);
+  }
+  function closeAll(){ gate.classList.remove("on"); overlay.classList.remove("on"); document.body.style.overflow=""; }
+  function tryEnter(){
+    if(pin.value===ADMIN_PIN){ ssSet("admOk","1"); openTool(); }
+    else { err.textContent="Senha incorreta."; pin.select(); }
+  }
+  $("admOpen").addEventListener("click",openGate);
+  $("admEnter").addEventListener("click",tryEnter);
+  $("admCancel").addEventListener("click",closeAll);
+  $("admBack").addEventListener("click",closeAll);
+  pin.addEventListener("keydown",function(e){ if(e.key==="Enter"){e.preventDefault();tryEnter();} });
+  gate.addEventListener("click",function(e){ if(e.target===gate) closeAll(); });
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape" && (gate.classList.contains("on")||overlay.classList.contains("on"))) closeAll(); });
+
+  function stripEmoji(str){
+    return str.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2764}\u{FE0F}\u{2B50}]/gu,"").replace(/ {2,}/g," ").replace(/ ([.!?,;])/g,"$1").trim();
+  }
+  function star(n){var o="";for(var i=1;i<=5;i++){o+='<span class="'+(i<=n?"":"off")+'">★</span>';}return o;}
+  function txtFor(i){ var raw=admData[i].s[TONE]||admData[i].s[0]; return $("admEmoji").checked?raw:stripEmoji(raw); }
+
+  function render(){
+    var hide=$("admHide").checked, list=$("admList");
+    list.innerHTML="";
+    admData.forEach(function(r,i){
+      if(hide && r._done) return;
+      var el=document.createElement("div");
+      el.className="adm-rev"+(r.n<=2?" neg":"")+(r._done?" answered":"");
+      var chips="";
+      if(r.men) chips+='<span class="adm-chip men">menção: '+r.men+'</span>';
+      if(r.att) chips+='<span class="adm-chip att">precisa de atenção</span>';
+      if(r.ans) chips+='<span class="adm-chip ans">já respondida no Google</span>';
+      el.innerHTML=
+        '<div class="adm-top">'+avatar(r.who,"adm-av")+'<span class="adm-stars">'+star(r.n)+'</span>'+
+        '<span class="adm-who">'+r.who+'</span><span class="adm-date">'+r.d+'</span>'+chips+'</div>'+
+        '<p class="adm-text">'+r.t+'</p>'+
+        '<div class="adm-lab">Resposta sugerida <span class="ai">IA</span></div>'+
+        '<textarea id="admTa'+i+'">'+txtFor(i)+'</textarea>'+
+        '<div class="adm-actions">'+
+          '<button class="adm-b primary" data-copy="'+i+'">📋 Copiar</button>'+
+          (API_CONECTADA?'<button class="adm-b resp on" data-resp="'+i+'">✅ Responder no Google</button>':'<button class="adm-b resp off" disabled title="Publica direto no Google — ativa quando a API conectar">🔒 Responder no Google</button>')+
+          '<button class="adm-b" data-regen="'+i+'">🔁 Outra sugestão</button>'+
+          '<button class="adm-b '+(r._done?"ok":"")+'" data-done="'+i+'">'+(r._done?"✓ Respondida":"Marcar respondida")+'</button>'+
+          '<span class="adm-cc" id="admCc'+i+'"></span>'+
+        '</div>';
+      list.appendChild(el);
+      count(i);
+    });
+    stats();
+  }
+  function count(i){ var ta=$("admTa"+i), cc=$("admCc"+i); if(ta&&cc) cc.textContent=ta.value.length+" caracteres"; }
+  function stats(){
+    var done=admData.filter(function(r){return r._done;}).length;
+    $("admTot").textContent=admData.length; $("admDone").textContent=done; $("admPend").textContent=admData.length-done;
+  }
+
+  function publishReply(i){
+    if(!API_CONECTADA){ return; }   // botao fica travado ate a API conectar
+    // TODO(API): publicar $("admTa"+i).value direto no Google (updateReply via backend).
+    // Ao conectar a API: enviar a resposta e, no sucesso, marcar como respondida abaixo.
+    admData[i]._done=true; render();
+  }
+  $("admList").addEventListener("click",function(e){
+    var b=e.target.closest("button"); if(!b) return;
+    if(b.dataset.copy!==undefined){ var i=b.dataset.copy; copy($("admTa"+i).value); var o=b.innerHTML; b.textContent="✓ Copiado!"; setTimeout(function(){b.innerHTML=o;},1400); }
+    if(b.dataset.regen!==undefined){ var i=b.dataset.regen, alt=(TONE===0)?1:0, raw=admData[i].s[alt]||admData[i].s[0];
+      $("admTa"+i).value=$("admEmoji").checked?raw:stripEmoji(raw); count(i); }
+    if(b.dataset.done!==undefined){ var i=b.dataset.done; admData[i]._done=!admData[i]._done; render(); }
+    if(b.dataset.resp!==undefined){ publishReply(b.dataset.resp); }
+  });
+  $("admList").addEventListener("input",function(e){ if(e.target.tagName==="TEXTAREA") count(e.target.id.replace("admTa","")); });
+  $("admToneSeg").addEventListener("click",function(e){ var b=e.target.closest("button"); if(!b) return;
+    TONE=+b.dataset.tone;
+    [].forEach.call(this.querySelectorAll("button"),function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});
+    render();
+  });
+  $("admEmoji").addEventListener("change",render);
+  $("admHide").addEventListener("change",render);
+
+  function copy(txt){
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).catch(fb); } else fb();
+    function fb(){ var t=document.createElement("textarea"); t.value=txt; t.style.position="fixed"; t.style.opacity="0";
+      document.body.appendChild(t); t.select(); try{document.execCommand("copy");}catch(e){} document.body.removeChild(t); }
+  }
+})();
+</script>
 
 </body>
 </html>
