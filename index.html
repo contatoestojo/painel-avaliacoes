@@ -408,6 +408,10 @@
   .login-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;
     padding:32px 28px;max-width:360px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.15);text-align:center;box-sizing:border-box;}
   .lg-crown{font-size:34px;line-height:1;}
+  .lg-logo{max-width:170px;max-height:66px;width:auto;height:auto;display:inline-block;}
+  @media (prefers-color-scheme:dark){.lg-logo{background:#fff;border-radius:9px;padding:6px 10px;box-shadow:0 1px 3px rgba(0,0,0,.35);}}
+  :root[data-theme="dark"] .lg-logo{background:#fff;border-radius:9px;padding:6px 10px;box-shadow:0 1px 3px rgba(0,0,0,.35);}
+  :root[data-theme="light"] .lg-logo{background:transparent;padding:0;box-shadow:none;}
   .login-card h2{margin:10px 0 2px;font-weight:700;color:var(--accent);font-size:20px;}
   .login-card p{margin:0 0 20px;font-size:13px;color:var(--muted);}
   .login-card input{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:10px;
@@ -421,7 +425,7 @@
 
 <div class="login-gate" id="loginGate">
   <form class="login-card" id="loginForm" autocomplete="on">
-    <div class="lg-crown">👑</div>
+    <img class="lg-logo" id="lgLogo" alt="Rei dos Estojos"><div class="lg-crown" id="lgCrown" style="display:none">👑</div>
     <h2>Painel de Avaliações</h2>
     <p>Rei dos Estojos · acesso da equipe</p>
     <input id="loginUser" placeholder="Usuário" autocomplete="username" autocapitalize="off" spellcheck="false">
@@ -434,6 +438,10 @@
 (function(){
   var U="vendas40", P="1234";
   function authed(){ try{ return localStorage.getItem("balcaoOk")==="1"; }catch(e){ return false; } }
+  function _setLogo(){ try{ var _bl=document.querySelector(".brand-logo"), _ll=document.getElementById("lgLogo"), _lc=document.getElementById("lgCrown");
+    if(_bl&&_bl.src&&_ll){ _ll.src=_bl.src; _ll.style.display=""; if(_lc)_lc.style.display="none"; }
+    else { if(_ll)_ll.style.display="none"; if(_lc)_lc.style.display=""; } }catch(e){} }
+  if(document.readyState==="loading"){ document.addEventListener("DOMContentLoaded",_setLogo); } else { _setLogo(); }
   var g=document.getElementById("loginGate");
   if(authed()){ if(g&&g.parentNode) g.parentNode.removeChild(g); return; }
   document.documentElement.style.overflow="hidden";
