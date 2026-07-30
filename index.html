@@ -421,6 +421,9 @@
   .login-card button{width:100%;border:0;background:var(--accent);color:#fff;font-family:inherit;
     font-weight:700;font-size:15px;padding:12px;border-radius:10px;cursor:pointer;}
   .login-card button:hover{filter:brightness(1.08);}
+  .rev-photo{display:inline-block;margin-top:8px;line-height:0;}
+  .rev-photo img{width:72px;height:72px;object-fit:cover;border-radius:10px;border:1px solid var(--line);cursor:pointer;transition:transform .1s;}
+  .rev-photo img:hover{transform:scale(1.04);}
 </style>
 
 <div class="login-gate" id="loginGate">
@@ -472,7 +475,7 @@
       </div>
     </div>
     <div class="spacer"></div>
-    <div class="updated">Atualizado · <b>27 jul 2026</b><br>lido do seu Google</div>
+    <div class="updated">Atualizado · <b>30 jul 2026</b><br>lido do seu Google</div>
     <button class="admin-btn" id="admOpen" type="button">🔒 Admin</button>
   </div>
 </header>
@@ -492,13 +495,13 @@
       <div class="stars" aria-label="4,6 de 5 estrelas">
         <span class="base">★★★★★</span><span class="fill" style="width:92%">★★★★★</span>
       </div>
-      <div class="foot">Média de <b style="font-variant-numeric:tabular-nums">&nbsp;1.174&nbsp;</b> avaliações</div>
+      <div class="foot">Média de <b style="font-variant-numeric:tabular-nums">&nbsp;1.177&nbsp;</b> avaliações</div>
     </div>
 
     <div class="card kpi">
       <div class="card-h"><span class="label">Total de avaliações</span><span class="tag real">real</span></div>
-      <div class="big">1.174</div>
-      <div class="foot"><span class="delta up">＋32</span> desde 09/07 — a campanha já traz avaliações</div>
+      <div class="big">1.177</div>
+      <div class="foot"><span class="delta up">＋35</span> desde 09/07 — a campanha já traz avaliações</div>
     </div>
 
     <div class="card kpi">
@@ -611,12 +614,12 @@
         <div class="side">
           <div class="cap">Depois · hoje</div>
           <div class="n">4,6</div>
-          <div class="u">1.174 <span style="color:var(--good);font-weight:700">(+32)</span></div>
+          <div class="u">1.177 <span style="color:var(--good);font-weight:700">(+35)</span></div>
         </div>
       </div>
       <div class="ba-note">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v5l3 2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9"/></svg>
-        <span>Base em 09/07: 1.142 avaliações. Já são <b>+32 avaliações</b>. Conforme o volume cresce, a diferença de nota e volume aparece aqui — a prova de que a campanha funciona.</span>
+        <span>Base em 09/07: 1.142 avaliações. Já são <b>+35 avaliações</b>. Conforme o volume cresce, a diferença de nota e volume aparece aqui — a prova de que a campanha funciona.</span>
       </div>
     </div>
   </div>
@@ -709,7 +712,7 @@
         <table class="comp">
           <thead><tr><th>Loja</th><th class="num">Nota</th><th class="num">Avaliações</th></tr></thead>
           <tbody>
-            <tr class="you"><td class="name">Rei dos Estojos <span class="mininote">— você</span></td><td class="num">4,6</td><td class="num">1.174</td></tr>
+            <tr class="you"><td class="name">Rei dos Estojos <span class="mininote">— você</span></td><td class="num">4,6</td><td class="num">1.177</td></tr>
             <tr><td>Concorrente A <span class="mininote">(exemplo)</span></td><td class="num">4,3</td><td class="num">612</td></tr>
             <tr><td>Concorrente B <span class="mininote">(exemplo)</span></td><td class="num">4,1</td><td class="num">388</td></tr>
           </tbody>
@@ -718,7 +721,7 @@
     </div>
   </div>
 
-  <div class="foot">Protótipo · Rei dos Estojos · atualizado em 27/07/2026</div>
+  <div class="foot">Protótipo · Rei dos Estojos · atualizado em 30/07/2026</div>
 </div>
 
 
@@ -769,7 +772,7 @@
     </div>
     <div id="admList"></div>
     <div style="margin-top:26px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--faint);">
-      <b style="color:var(--muted)">Protótipo · Fase 2.</b> Sugestões escritas pela IA para as avaliações de 27/07/2026. Com a API do Google Business Profile (protocolo 3-1893000041662) liberada, a ferramenta passa a puxar as avaliações e publicar a resposta direto. Assinatura padrão: <b style="color:var(--muted)">— Equipe Rei dos Estojos</b>.
+      <b style="color:var(--muted)">Protótipo · Fase 2.</b> Sugestões escritas pela IA para as avaliações de 30/07/2026. Com a API do Google Business Profile (protocolo 3-1893000041662) liberada, a ferramenta passa a puxar as avaliações e publicar a resposta direto. Assinatura padrão: <b style="color:var(--muted)">— Equipe Rei dos Estojos</b>.
     </div>
   </div>
 </div>
@@ -943,16 +946,16 @@
 
   // feed (real reviews)
   var reviews=[
-    {name:"Isaias P.",n:5,d:"há 1 dia",t:"Muito bom o atendimento e muita agilidade.",ans:true},
-    {name:"Henrique L.",n:5,d:"há 2 dias",t:"Serviço de excelência! Sempre muito bem atendido pela Juliana, sempre prestativa!",mention:"Juliana",ans:true},
-    {name:"Elias T.",n:5,d:"há 2 dias",t:"Atendimento excelente, parabéns Silvio.",mention:"Silvio",ans:true},
-    {name:"Alfredo C.",n:5,d:"há 2 dias",t:"Excelente atendimento do vendedor Silvio! Recomendo!",mention:"Silvio",ans:true},
-    {name:"Jeferson S.",n:5,d:"há 2 dias",t:"Ótimo local para pequenos reparos em relógios, preço justo, atendimento nota 10. A Patrícia me atendeu, uma simpatia. Parabéns!",mention:"Patrícia",ans:true},
-    {name:"Sergio C.",n:5,d:"há 5 dias",t:"Excelente atendimento."},
-    {name:"Cláudio S.",n:5,d:"há 9 dias",t:"O Rei dos Estojos é referência no mercado relojoeiro em BH: um time habilidoso, com excelente conhecimento técnico, presteza e boa vontade em trazer soluções ao cliente.",ans:true},
-    {name:"Martinez",n:5,d:"há 9 dias",t:"Excelente loja, atendimento profissional, encontrei tudo que precisava — atendido por Shirley. Muito obrigado!",mention:"Shirley"},
-    {name:"Cibele B.",n:5,d:"há 9 dias",t:"A Tatiane atende maravilhosamente, o atendimento é sempre impecável! 😍",mention:"Tatiane",ans:true},
-    {name:"Paulino R.",n:5,d:"há 10 dias",t:"A melhor relojoaria de BH!",ans:true}
+    {name:"Warley J.",n:5,d:"há 3 dias",t:"Excelente atendimento e muito prestativa a vendedora Tais, parabéns.",mention:"Tais",ans:true},
+    {name:"Adriane P.",n:5,d:"há 3 dias",t:"Como sempre, excelente!",ans:true},
+    {name:"Isaias P.",n:5,d:"há 5 dias",t:"Muito bom o atendimento e muita agilidade.",ans:true,pic:"https://lh3.googleusercontent.com/grass-cs/ACvplmOOAKvI622Di8B5Zw11OXWlMeJcx35zdXBGgLyTkiBjPFDKx9uvbklAfQ3eF1PufR-82SKcJYWa5m9qe-j3B-zkgQEjYH_xyHStTpiaXryZKNZTMY_plYq2B-n6KKkNvNAaQ8DobiNDaFY=s400"},
+    {name:"Henrique L.",n:5,d:"há 5 dias",t:"Serviço de excelência! Sempre muito bem atendido pela Juliana, sempre prestativa!",mention:"Juliana",ans:true},
+    {name:"Elias T.",n:5,d:"há 5 dias",t:"Atendimento excelente, parabéns Silvio.",mention:"Silvio",ans:true},
+    {name:"Alfredo C.",n:5,d:"há 5 dias",t:"Excelente atendimento do vendedor Silvio! Recomendo!",mention:"Silvio",ans:true},
+    {name:"Jeferson S.",n:5,d:"há 5 dias",t:"Ótimo local para pequenos reparos em relógios, preço justo, atendimento nota 10. A Patrícia me atendeu, uma simpatia. Parabéns!",mention:"Patrícia",ans:true},
+    {name:"Sergio C.",n:5,d:"há 8 dias",t:"Excelente atendimento."},
+    {name:"Cláudio S.",n:5,d:"há 12 dias",t:"O Rei dos Estojos é referência no mercado relojoeiro em BH: um time habilidoso, com excelente conhecimento técnico, presteza e boa vontade em trazer soluções ao cliente.",ans:true},
+    {name:"Martinez",n:5,d:"há 12 dias",t:"Excelente loja, atendimento profissional, encontrei tudo que precisava — atendido por Shirley. Muito obrigado!",mention:"Shirley"}
   ];
   function starRow(n){ var s=""; for(var i=1;i<=5;i++){ s+='<span class="'+(i<=n?"":"off")+'">★</span>'; } return s; }
   var AV_CORES=["#4B49A8","#0F8A7E","#B5761A","#B04A64","#2E7D4F","#6D4C9E","#2C6BAF","#8A5A3C"];
@@ -960,12 +963,13 @@
   function avCor(n){ n=(n||""); var h=0; for(var i=0;i<n.length;i++){ h=(h*31+n.charCodeAt(i))>>>0; }
     return AV_CORES[h%AV_CORES.length]; }
   function avatar(n,cls){ return '<span class="'+(cls||"rev-av")+'" aria-hidden="true" style="background:'+avCor(n)+'">'+avLetra(n)+'</span>'; }
+  function photoHTML(pic){ if(!pic) return ""; return '<a class="rev-photo" href="'+pic+'" target="_blank" rel="noopener"><img src="'+pic+'" alt="Foto do cliente" referrerpolicy="no-referrer" loading="lazy" onerror="if(this.parentNode)this.parentNode.remove()"></a>'; }
   document.getElementById("feed").innerHTML=reviews.map(function(r){
     var cls=r.n>=4?"pos":(r.n<=2?"neg":"neu");
     var chips="";
     if(r.mention) chips+='<span class="rev-chip mention">menção: '+r.mention+'</span>';
     if(r.ans) chips+='<span class="rev-chip answered">respondida</span>';
-    return '<div class="rev '+cls+'"><div class="rev-top">'+avatar(r.name)+'<span class="rev-stars">'+starRow(r.n)+'</span>'+(r.name?'<span class="rev-who">'+r.name+'</span>':'')+'<span class="rev-date">'+r.d+'</span>'+chips+'</div><p class="rev-text">'+r.t+'</p></div>';
+    return '<div class="rev '+cls+'"><div class="rev-top">'+avatar(r.name)+'<span class="rev-stars">'+starRow(r.n)+'</span>'+(r.name?'<span class="rev-who">'+r.name+'</span>':'')+'<span class="rev-date">'+r.d+'</span>'+chips+'</div><p class="rev-text">'+r.t+'</p>'+photoHTML(r.pic)+'</div>';
   }).join("");
 
   // ===== NOVOS BLOCOS =====
@@ -975,7 +979,7 @@
 
   // META — quantas 5★ para a próxima nota (usa a média real NÃO arredondada da API)
   var AVG_REAL=4.63;                // média estimada na base (a API dá a exata, não arredondada)
-  var BASE_TOTAL=1142, NEW5=32;     // base 09/07 + novas 5★ lidas do Google (atualizar no refresh)
+  var BASE_TOTAL=1142, NEW5=35;     // base 09/07 + novas 5★ lidas do Google (atualizar no refresh)
   var notaAtual=Math.round(AVG_REAL*10)/10;             // 4.6 (exibida)
   var nextDisp=Math.round((notaAtual+0.1)*10)/10;       // 4.7
   var thr=nextDisp-0.05;                                // 4.65 -> a partir daqui o Google exibe 4,7
@@ -1063,46 +1067,46 @@
   var API_CONECTADA = false;   // vira true quando a API do Google Business Profile conectar (ai o botao Responder publica direto)
 
   var admData=[
-    {who:"Isaias Pedro",n:5,d:"há 1 dia",men:"",ans:true,
+    {who:"Warley Junio",n:5,d:"há 3 dias",men:"Tais",ans:true,
+     t:"Excelente atendimento e muito prestativa a vendedora Tais, parabéns.",
+     s:["Olá, Warley! Que bom que a Tais foi tão prestativa. 😊 Vamos passar seu elogio pra ela. Obrigado pela avaliação! — Equipe Rei dos Estojos",
+        "Oi, Warley! A Tais vai adorar saber. Obrigado por escolher a Rei dos Estojos — volte sempre! — Equipe Rei dos Estojos"]},
+    {who:"Adriane Pereira",n:5,d:"há 3 dias",men:"",ans:true,
+     t:"Como sempre, excelente!",
+     s:["Olá, Adriane! Ter você sempre satisfeita é o nosso maior orgulho. 😊 Muito obrigado pela confiança de sempre! — Equipe Rei dos Estojos",
+        "Oi, Adriane! Que alegria te ter sempre com a gente. Obrigado — até a próxima! — Equipe Rei dos Estojos"]},
+    {who:"Isaias Pedro",n:5,d:"há 5 dias",men:"",ans:true,
      t:"Muito bom o atendimento e muita agilidade.",
      s:["Olá, Isaias! Obrigado pela avaliação. 😊 Agilidade no atendimento é o que buscamos todo dia — volte sempre! — Equipe Rei dos Estojos",
         "Oi, Isaias! Que bom que foi rápido e bem atendido. Obrigado pela confiança na Rei dos Estojos! — Equipe Rei dos Estojos"]},
-    {who:"Henrique Luiz",n:5,d:"há 2 dias",men:"Juliana",ans:true,
+    {who:"Henrique Luiz",n:5,d:"há 5 dias",men:"Juliana",ans:true,
      t:"Serviço de excelência! Sempre muito bem atendido pela Juliana, sempre prestativa!",
      s:["Olá, Henrique! A Juliana é prestativa mesmo. 😊 Vamos passar seu elogio pra ela. Obrigado por ser sempre nosso cliente! — Equipe Rei dos Estojos",
         "Oi, Henrique! Que bom te ter sempre por aqui — a Juliana vai adorar saber do seu carinho. Obrigado! — Equipe Rei dos Estojos"]},
-    {who:"Elias Torrent",n:5,d:"há 2 dias",men:"Silvio",ans:true,
+    {who:"Elias Torrent",n:5,d:"há 5 dias",men:"Silvio",ans:true,
      t:"Atendimento excelente, parabéns Silvio.",
      s:["Olá, Elias! Obrigado pelo elogio — o Silvio vai ficar muito feliz. 😊 Conte sempre com a gente! — Equipe Rei dos Estojos",
         "Oi, Elias! Que bom que o Silvio caprichou no seu atendimento. Obrigado pela avaliação! — Equipe Rei dos Estojos"]},
-    {who:"Alfredo Costa",n:5,d:"há 2 dias",men:"Silvio",ans:true,
+    {who:"Alfredo Costa",n:5,d:"há 5 dias",men:"Silvio",ans:true,
      t:"Excelente atendimento do vendedor Silvio! Recomendo!",
      s:["Olá, Alfredo! Obrigado pela recomendação. 😊 O Silvio vai ficar muito feliz com seu elogio. Volte sempre! — Equipe Rei dos Estojos",
         "Oi, Alfredo! Que satisfação ler isso — vamos compartilhar seu elogio com o Silvio. Obrigado pela confiança! — Equipe Rei dos Estojos"]},
-    {who:"Jeferson Sargaço",n:5,d:"há 2 dias",men:"Patrícia",ans:true,
+    {who:"Jeferson Sargaço",n:5,d:"há 5 dias",men:"Patrícia",ans:true,
      t:"Ótimo local para pequenos reparos em relógios, preço justo, atendimento nota 10. A Patrícia me atendeu, uma simpatia. Parabéns!",
      s:["Olá, Jeferson! Preço justo e atendimento nota 10 é o que buscamos. 😊 A Patrícia agradece o carinho. Obrigado pela confiança! — Equipe Rei dos Estojos",
         "Oi, Jeferson! Que bom que o reparo e o atendimento da Patrícia agradaram. Obrigado — volte sempre! — Equipe Rei dos Estojos"]},
-    {who:"Sergio CR",n:5,d:"há 5 dias",men:"",ans:false,
+    {who:"Sergio CR",n:5,d:"há 8 dias",men:"",ans:false,
      t:"Excelente atendimento.",
      s:["Olá, Sergio! Obrigado pela avaliação. 😊 Ficamos felizes que o atendimento foi excelente — conte sempre com a gente! — Equipe Rei dos Estojos",
         "Oi, Sergio! Que bom saber disso. Obrigado pela confiança na Rei dos Estojos — volte sempre! — Equipe Rei dos Estojos"]},
-    {who:"Cláudio Simão",n:5,d:"há 9 dias",men:"",ans:true,
+    {who:"Cláudio Simão",n:5,d:"há 12 dias",men:"",ans:true,
      t:"O Rei dos Estojos é referência no mercado relojoeiro em BH: um time habilidoso, com excelente conhecimento técnico, presteza e boa vontade em trazer soluções ao cliente.",
      s:["Olá, Cláudio! Que avaliação generosa — obrigado! 😊 Nosso time vai adorar saber que o conhecimento técnico e o cuidado fizeram a diferença. Conte sempre com a gente! — Equipe Rei dos Estojos",
-        "Oi, Cláudio! Ser referência pra você é uma honra. Obrigado pelo reconhecimento ao nosso time — voltamos a te atender quando precisar! — Equipe Rei dos Estojos"]},
-    {who:"Martinez",n:5,d:"há 9 dias",men:"Shirley",ans:false,
+        "Oi, Cláudio! Ser referência pra você é uma honra. Obrigado pelo reconhecimento ao nosso time! — Equipe Rei dos Estojos"]},
+    {who:"Martinez",n:5,d:"há 12 dias",men:"Shirley",ans:false,
      t:"Excelente loja, atendimento profissional, encontrei tudo que precisava — atendido por Shirley. Muito obrigado!",
      s:["Olá, Martinez! Que bom que encontrou tudo e foi tão bem atendido pela Shirley. 😊 Vamos passar seu elogio pra ela. Obrigado pela confiança! — Equipe Rei dos Estojos",
         "Oi, Martinez! A Shirley vai ficar feliz com seu comentário. Obrigado por escolher a Rei dos Estojos — volte sempre! — Equipe Rei dos Estojos"]},
-    {who:"Cibele Barbosa",n:5,d:"há 9 dias",men:"Tatiane",ans:true,
-     t:"A Tatiane atende maravilhosamente, o atendimento é sempre impecável! 😍",
-     s:["Olá, Cibele! A Tatiane é atenciosa mesmo, né? 😍 Obrigado pelo carinho — vamos compartilhar seu elogio com ela. Volte sempre! — Equipe Rei dos Estojos",
-        "Oi, Cibele! Que alegria saber que a Tatiane te atende tão bem. Obrigado pela avaliação! — Equipe Rei dos Estojos"]},
-    {who:"Paulino Ribeiro Advocacia",n:5,d:"há 10 dias",men:"",ans:true,
-     t:"A melhor relojoaria de BH!",
-     s:["Olá, Paulino! \"A melhor relojoaria de BH\" é um baita elogio — obrigado! 😊 Contamos com sua próxima visita. — Equipe Rei dos Estojos",
-        "Oi, Paulino! Que honra ler isso. Obrigado pela confiança na Rei dos Estojos! — Equipe Rei dos Estojos"]},
     {who:"André Oliveira",n:1,d:"há 6 meses",men:"",ans:true,att:true,
      t:"Minha esposa levou o relógio para trocar a bateria; depois de desmontado, disseram que o ponteiro do cronógrafo estava solto e cobraram para colocar no lugar.",
      s:["Olá, André. Sentimos muito pela experiência. Em cronógrafos, é comum identificarmos folgas já existentes só na abertura, e por isso sempre avisamos antes de qualquer ajuste. Gostaríamos de entender melhor o seu caso — pode nos chamar no (31) 3271-4631? Ficamos à disposição para ajudar. — Equipe Rei dos Estojos",
