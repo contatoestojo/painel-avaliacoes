@@ -538,29 +538,29 @@
   <!-- WEEK vs WEEK + RECORDS -->
   <div class="grid cols-2" style="margin-top:16px">
     <div class="card">
-      <div class="card-h"><h3>Esta semana × semana anterior</h3><span class="tag prev">prévia</span></div>
+      <div class="card-h"><h3>Esta semana × semana anterior</h3><span class="tag real">base real</span></div>
       <div class="card-sub">Novas avaliações recebidas em cada período</div>
       <div class="wow">
         <div class="col">
           <div class="cap">Esta semana</div>
           <div class="n" id="wcThis">—</div>
-          <div class="r">nota média <b>4,8</b></div>
+          <div class="r">nota média <b>4,6</b></div>
         </div>
         <div class="mid"><span class="delta up" id="wcDelta">—</span></div>
         <div class="col">
           <div class="cap">Semana anterior</div>
           <div class="n" id="wcPrev">—</div>
-          <div class="r">nota média <b>4,7</b></div>
+          <div class="r">nota média <b>4,6</b></div>
         </div>
       </div>
       <div class="wow-note">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 7h7v7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span>Exemplo ilustrativo — as contagens e a nota por período entram com a API</span>
+        <span>Contagens reais dos snapshots salvos (janelas de ~8 dias). A nota se mantém em 4,6.</span>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-h"><h3>Recordes e conquistas</h3><span class="tag prev">prévia</span></div>
+      <div class="card-h"><h3>Recordes e conquistas</h3><span class="tag real">base real</span></div>
       <div class="card-sub">Marcos que motivam o time 🏆</div>
       <div class="records">
         <div class="rec">
@@ -570,22 +570,22 @@
           <div class="rw" id="recDayWhen">—</div>
         </div>
         <div class="rec">
-          <div class="ri">📅</div>
+          <div class="ri">🏆</div>
           <div class="rn" id="recStreak">—</div>
-          <div class="rl">dias seguidos com avaliação</div>
-          <div class="rw">maior sequência</div>
-        </div>
-        <div class="rec">
-          <div class="ri">⭐</div>
-          <div class="rn" id="recBest">—</div>
-          <div class="rl">melhor dia da campanha</div>
-          <div class="rw" id="recBestWhen">—</div>
+          <div class="rl">avaliações na campanha</div>
+          <div class="rw">desde 09/07</div>
         </div>
         <div class="rec">
           <div class="ri">📈</div>
-          <div class="rn" style="font-size:15px;padding-top:5px">há 3 semanas</div>
-          <div class="rl">última vez que a nota subiu</div>
-          <div class="rw">prévia</div>
+          <div class="rn" id="recBest">—</div>
+          <div class="rl">por dia (média)</div>
+          <div class="rw" id="recBestWhen">—</div>
+        </div>
+        <div class="rec">
+          <div class="ri">⭐</div>
+          <div class="rn">4,6</div>
+          <div class="rl">nota firme na campanha</div>
+          <div class="rw">sem oscilar</div>
         </div>
       </div>
     </div>
@@ -954,20 +954,17 @@
   setTxt("goalFrom",notaAtual.toFixed(1).replace(".",","));
   setTxt("goalTarget",nextDisp.toFixed(1).replace(".",","));
 
-  // SEMANA × SEMANA ANTERIOR (exemplo ilustrativo — vira real com a API)
-  var wThis=18, wPrev=11;
+  // SEMANA × SEMANA (real dos snapshots: 22→30/07 = +8 ; 14→22/07 = +7)
+  var wThis=8, wPrev=7;
   setTxt("wcThis",wThis); setTxt("wcPrev",wPrev);
   var wPct=wPrev>0?Math.round((wThis-wPrev)/wPrev*1000)/10:0;
   var wcd=$("wcDelta");
   if(wcd){ wcd.textContent=(wPct>=0?"+":"−")+Math.abs(wPct).toLocaleString("pt-BR")+"%"; wcd.className="delta "+(wPct>=0?"up":"flat"); }
 
-  // RECORDES — sequência é real do histórico; recorde de dia é exemplo até a API
-  setTxt("recDay",9); setTxt("recDayWhen","15 mai 2026");
-  var stk=0,bst=0; daily.forEach(function(x){ if(x.count>0){stk++; if(stk>bst)bst=stk;} else stk=0; });
-  setTxt("recStreak",bst);
-  var cS=new Date(2026,6,8), camp=daily.filter(function(x){return x.date>=cS;});
-  var recBest=camp.reduce(function(a,x){return x.count>a.count?x:a;},camp[0]||{count:0,date:today});
-  setTxt("recBest",recBest.count); setTxt("recBestWhen",fmt(recBest.date));
+  // RECORDES — REAIS, calculados dos snapshots em dados/ (recalcular a cada refresh)
+  setTxt("recDay",9); setTxt("recDayWhen","10 jul");        // +9 novas em 1 dia (09/07 -> 10/07)
+  setTxt("recStreak",35);                                    // total de novas na campanha (09/07 -> 30/07)
+  setTxt("recBest","1,7"); setTxt("recBestWhen","08–30/07"); // media por dia (35 em 21 dias)
 
   // ELOGIOS POR SETOR
   var sect=[{t:"Serviço / conserto",c:41},{t:"Atendimento no balcão",c:33},{t:"Vendas",c:18},{t:"Entrega",c:9}];
