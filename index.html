@@ -476,7 +476,7 @@
       </div>
     </div>
     <div class="spacer"></div>
-    <div class="updated">Atualizado · <b>4 ago 2026</b><br>lido do seu Google</div>
+    <div class="updated">Atualizado · <b>13 ago 2026</b><br>lido do seu Google</div>
     <button class="admin-btn" id="admOpen" type="button">🔒 Admin</button>
   </div>
 </header>
@@ -491,13 +491,13 @@
       <div class="stars" aria-label="4,6 de 5 estrelas">
         <span class="base">★★★★★</span><span class="fill" style="width:92%">★★★★★</span>
       </div>
-      <div class="foot">Média de <b style="font-variant-numeric:tabular-nums">&nbsp;1.191&nbsp;</b> avaliações</div>
+      <div class="foot">Média de <b style="font-variant-numeric:tabular-nums">&nbsp;1.202&nbsp;</b> avaliações</div>
     </div>
 
     <div class="card kpi">
       <div class="card-h"><span class="label">Total de avaliações</span></div>
-      <div class="big">1.191</div>
-      <div class="foot"><span class="delta up">＋49</span> desde 09/07 — a campanha já traz avaliações</div>
+      <div class="big">1.202</div>
+      <div class="foot"><span class="delta up">＋60</span> desde 09/07 — a campanha já traz avaliações</div>
     </div>
 
     <div class="card kpi">
@@ -609,12 +609,12 @@
         <div class="side">
           <div class="cap">Depois · hoje</div>
           <div class="n">4,6</div>
-          <div class="u">1.191 <span style="color:var(--good);font-weight:700">(+49)</span></div>
+          <div class="u">1.202 <span style="color:var(--good);font-weight:700">(+60)</span></div>
         </div>
       </div>
       <div class="ba-note">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v5l3 2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9"/></svg>
-        <span>Base em 09/07: 1.142 avaliações. Já são <b>+49 avaliações</b>. Conforme o volume cresce, a diferença de nota e volume aparece aqui — a prova de que a campanha funciona.</span>
+        <span>Base em 09/07: 1.142 avaliações. Já são <b>+60 avaliações</b>. Conforme o volume cresce, a diferença de nota e volume aparece aqui — a prova de que a campanha funciona.</span>
       </div>
     </div>
   </div>
@@ -736,7 +736,7 @@
         <table class="comp">
           <thead><tr><th>Loja</th><th class="num">Nota</th><th class="num">Avaliações</th></tr></thead>
           <tbody>
-            <tr class="you"><td class="name">Rei dos Estojos <span class="mininote">— você</span></td><td class="num">4,6</td><td class="num">1.191</td></tr>
+            <tr class="you"><td class="name">Rei dos Estojos <span class="mininote">— você</span></td><td class="num">4,6</td><td class="num">1.202</td></tr>
             <tr><td>Garcia Jóias BH</td><td class="num">5,0</td><td class="num">281</td></tr>
             <tr><td>Relojoaria Amazonas</td><td class="num">4,3</td><td class="num">157</td></tr>
             <tr><td>Casa dos Relógios</td><td class="num">4,7</td><td class="num">86</td></tr>
@@ -953,7 +953,7 @@
 
   // META — quantas 5★ para a próxima nota (usa a média real NÃO arredondada da API)
   var AVG_REAL=4.63;                // média estimada na base (a API dá a exata, não arredondada)
-  var BASE_TOTAL=1142, NEW5=48;     // base 09/07 + novas 5★ lidas do Google (atualizar no refresh)
+  var BASE_TOTAL=1142, NEW5=59;     // base 09/07 + novas 5★ lidas do Google (atualizar no refresh)
   var notaAtual=Math.round(AVG_REAL*10)/10;             // 4.6 (exibida)
   var nextDisp=Math.round((notaAtual+0.1)*10)/10;       // 4.7
   var thr=nextDisp-0.05;                                // 4.65 -> a partir daqui o Google exibe 4,7
@@ -966,7 +966,7 @@
   setTxt("goalTarget",nextDisp.toFixed(1).replace(".",","));
 
   // SEMANA × SEMANA (real: 27/07→04/08 = +17 ; 20/07→27/07 = +6)
-  var wThis=17, wPrev=6;
+  var wThis=11, wPrev=14;
   setTxt("wcThis",wThis); setTxt("wcPrev",wPrev);
   var wPct=wPrev>0?Math.round((wThis-wPrev)/wPrev*1000)/10:0;
   var wcd=$("wcDelta");
@@ -974,8 +974,8 @@
 
   // RECORDES — REAIS, calculados dos snapshots em dados/ (recalcular a cada refresh)
   setTxt("recDay",9); setTxt("recDayWhen","10 jul");        // +9 novas em 1 dia (09/07 -> 10/07)
-  setTxt("recStreak",49);                                    // total de novas na campanha (09/07 -> 30/07)
-  setTxt("recBest","1,9"); setTxt("recBestWhen","08/07–04/08"); // media por dia (35 em 21 dias)
+  setTxt("recStreak",60);                                    // total de novas na campanha (09/07 -> 30/07)
+  setTxt("recBest","1,7"); setTxt("recBestWhen","08/07–04/08"); // media por dia (35 em 21 dias)
 
   // ELOGIOS POR SETOR
   var sect=[{t:"Serviço / conserto",c:41},{t:"Atendimento no balcão",c:33},{t:"Vendas",c:18},{t:"Entrega",c:9}];
