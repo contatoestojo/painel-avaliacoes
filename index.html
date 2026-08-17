@@ -491,13 +491,13 @@
       <div class="stars" aria-label="4,6 de 5 estrelas">
         <span class="base">★★★★★</span><span class="fill" style="width:92%">★★★★★</span>
       </div>
-      <div class="foot">Média de <b style="font-variant-numeric:tabular-nums">&nbsp;1.207&nbsp;</b> avaliações</div>
+      <div class="foot">Média de <b style="font-variant-numeric:tabular-nums">&nbsp;1.209&nbsp;</b> avaliações</div>
     </div>
 
     <div class="card kpi">
       <div class="card-h"><span class="label">Total de avaliações</span></div>
-      <div class="big">1.207</div>
-      <div class="foot"><span class="delta up">＋65</span> desde 09/07 — a campanha já traz avaliações</div>
+      <div class="big">1.209</div>
+      <div class="foot"><span class="delta up">＋67</span> desde 09/07 — a campanha já traz avaliações</div>
     </div>
 
     <div class="card kpi">
@@ -511,9 +511,9 @@
   <div class="goal">
     <div class="g-num" id="goalNum">—</div>
     <div class="g-txt">
-      <h3>Faltam poucas <span class="g-star">★</span> para a nota subir</h3>
-      <p>Faltam cerca de <b id="goalNum2">—</b> avaliações <b>5 estrelas</b> para o Google exibir <b id="goalTarget">4,7</b> (hoje <b id="goalFrom">4,6</b>). Já foram <b id="goalDone">—</b> desde o início da campanha — <b>cada nova 5★ derruba esse número!</b> 🎯</p>
-      <p class="mininote" style="margin-top:6px">Estimativa: a base tem 1.142 avaliações, então a nota sobe devagar.</p>
+      <h3>Quantas <span class="g-star">★</span> faltam para a nota subir</h3>
+      <p>Faltam <b id="goalNum2">—</b> avaliações <b>5 estrelas</b> para o Google exibir <b id="goalTarget">4,7</b> (hoje <b id="goalFrom">4,6</b>). Já foram <b id="goalDone">—</b> avaliações novas desde o início da campanha — <b>cada nova 5★ derruba esse número!</b> 🎯</p>
+      <p class="mininote" style="margin-top:6px">Cálculo real sobre a distribuição de estrelas do Google (<b id="goalDist">—</b>), média <b id="goalAvg">—</b>, lida em <b id="goalWhen">—</b>. Atenção: cada <b>1★</b> nova exige <b id="goalCost1">—</b> avaliações 5★ a mais para compensar.</p>
     </div>
   </div>
 
@@ -609,12 +609,12 @@
         <div class="side">
           <div class="cap">Depois · hoje</div>
           <div class="n">4,6</div>
-          <div class="u">1.207 <span style="color:var(--good);font-weight:700">(+65)</span></div>
+          <div class="u">1.209 <span style="color:var(--good);font-weight:700">(+67)</span></div>
         </div>
       </div>
       <div class="ba-note">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v5l3 2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9"/></svg>
-        <span>Base em 09/07: 1.142 avaliações. Já são <b>+65 avaliações</b>. Conforme o volume cresce, a diferença de nota e volume aparece aqui — a prova de que a campanha funciona.</span>
+        <span>Base em 09/07: 1.142 avaliações. Já são <b>+67 avaliações</b>. Conforme o volume cresce, a diferença de nota e volume aparece aqui — a prova de que a campanha funciona.</span>
       </div>
     </div>
   </div>
@@ -736,7 +736,7 @@
         <table class="comp">
           <thead><tr><th>Loja</th><th class="num">Nota</th><th class="num">Avaliações</th></tr></thead>
           <tbody>
-            <tr class="you"><td class="name">Rei dos Estojos <span class="mininote">— você</span></td><td class="num">4,6</td><td class="num">1.207</td></tr>
+            <tr class="you"><td class="name">Rei dos Estojos <span class="mininote">— você</span></td><td class="num">4,6</td><td class="num">1.209</td></tr>
             <tr><td>Garcia Jóias BH</td><td class="num">5,0</td><td class="num">281</td></tr>
             <tr><td>Relojoaria Amazonas</td><td class="num">4,3</td><td class="num">157</td></tr>
             <tr><td>Casa dos Relógios</td><td class="num">4,7</td><td class="num">86</td></tr>
@@ -952,22 +952,34 @@
   function setTxt(id,v){var e=$(id); if(e) e.textContent=v;}
   function sumC(a){return a.reduce(function(s,x){return s+x.count;},0);}
 
-  // META — quantas 5★ para a próxima nota (usa a média real NÃO arredondada da API)
-  var AVG_REAL=4.63;                // média estimada na base (a API dá a exata, não arredondada)
-  var BASE_TOTAL=1142, NEW5=64;     // base 09/07 + novas 5★ lidas do Google (atualizar no refresh)
-  var notaAtual=Math.round(AVG_REAL*10)/10;             // 4.6 (exibida)
+  // META — quantas 5★ para a próxima nota.
+  // Calculado sobre a DISTRIBUIÇÃO REAL de estrelas lida no Google Maps (a Places API
+  // só devolve a nota arredondada, 4.6, que não serve: 4,55 e 4,64 dão metas 10x diferentes).
+  // DIST é atualizado a cada leitura do Maps (api/update_feed.py --dist).
+  var DIST={5:914,4:204,3:59,2:10,1:22}, DIST_WHEN="17/08/2026";
+  var BASE_TOTAL=1142;                                  // base 09/07, para o "já foram X"
+  var CNT=0, PTS=0;
+  for(var k in DIST){ CNT+=DIST[k]; PTS+=k*DIST[k]; }
+  var AVG_REAL=PTS/CNT;                                 // média exata, não arredondada
+  var notaAtual=Math.round(AVG_REAL*10)/10;             // 4.6 (a que o Google exibe)
   var nextDisp=Math.round((notaAtual+0.1)*10)/10;       // 4.7
   var thr=nextDisp-0.05;                                // 4.65 -> a partir daqui o Google exibe 4,7
-  var baseNeed=Math.ceil((thr*BASE_TOTAL-AVG_REAL*BASE_TOTAL)/(5-thr));
-  var need=Math.max(0, baseNeed-NEW5);                  // cada 5★ conquistada derruba o número
-  setTxt("goalNum","≈ "+need);
+  // n avaliações 5★ tais que (PTS+5n)/(CNT+n) >= thr
+  var need=Math.max(0, Math.ceil((thr*CNT-PTS)/(5-thr)));
+  // quanto uma nova 1★ encarece a meta (mostra o estrago de uma nota baixa)
+  var cost1=Math.max(0, Math.ceil((thr*(CNT+1)-(PTS+1))/(5-thr)))-need;
+  setTxt("goalNum",need);
   setTxt("goalNum2",need);
-  setTxt("goalDone",NEW5);
+  setTxt("goalDone",CNT-BASE_TOTAL);                    // avaliações novas (não "5★ novas")
   setTxt("goalFrom",notaAtual.toFixed(1).replace(".",","));
   setTxt("goalTarget",nextDisp.toFixed(1).replace(".",","));
+  setTxt("goalAvg",AVG_REAL.toFixed(2).replace(".",","));
+  setTxt("goalWhen",DIST_WHEN);
+  setTxt("goalCost1",cost1);
+  setTxt("goalDist",DIST[5]+"× 5★, "+DIST[4]+"× 4★, "+DIST[3]+"× 3★, "+DIST[2]+"× 2★, "+DIST[1]+"× 1★");
 
   // SEMANA × SEMANA (real: 27/07→04/08 = +17 ; 20/07→27/07 = +6)
-  var wThis=16, wPrev=9;
+  var wThis=18, wPrev=9;
   setTxt("wcThis",wThis); setTxt("wcPrev",wPrev);
   var wPct=wPrev>0?Math.round((wThis-wPrev)/wPrev*1000)/10:0;
   var wcd=$("wcDelta");
@@ -975,7 +987,7 @@
 
   // RECORDES — REAIS, calculados dos snapshots em dados/ (recalcular a cada refresh)
   setTxt("recDay",9); setTxt("recDayWhen","10 jul");        // +9 novas em 1 dia (09/07 -> 10/07)
-  setTxt("recStreak",65);                                    // total de novas na campanha (09/07 -> 30/07)
+  setTxt("recStreak",67);                                    // total de novas na campanha (09/07 -> 30/07)
   setTxt("recBest","1,7"); setTxt("recBestWhen","08/07–04/08"); // media por dia (35 em 21 dias)
 
   // ELOGIOS POR SETOR
