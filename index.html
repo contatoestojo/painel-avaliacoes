@@ -920,16 +920,16 @@
 
   // feed (real reviews)
   var reviews=[
-    {name:"Izolda M.",n:5,d:"há 3 horas",t:"Muito atenciosos, trocaram a bateria muito rápido. Super recomendo!",ans:true},
-    {name:"GV1M4R4E5_X",n:5,d:"há 3 horas",t:"Excelente! Funcionários experientes, atenciosos! Sempre faço manutenção nos meus relógios nessa loja.",ans:true},
-    {name:"Alfredo F.",n:5,d:"há 3 dias",t:"Fui atendido pelo Paulo, muito prestativo e atencioso. Nota 10.",mention:"Paulo",ans:true},
-    {name:"Hector L.",n:5,d:"há 3 dias",t:"Excelente atendimento. Charles, especialista nota 10.",mention:"Charles",ans:true},
-    {name:"Christopher C.",n:5,d:"há 3 dias",t:"Procure o Marcos: atendimento completo, super eficiente e carismático. Cheguei com um produto em mente e saí com mais 2 que agregarão muito!",mention:"Marcos",ans:true},
-    {name:"Meire M.",n:5,d:"há 5 dias",t:"Muito bem atendida pelo Marcos. Ótimo vendedor.",mention:"Marcos",ans:true},
-    {name:"Valeria V.",n:5,d:"há 6 dias",t:"Fui muito bem atendida pela Lúcia. Boa vontade em procurar o produto que eu precisava, com toda paciência.",mention:"Lúcia",ans:true},
-    {name:"Pietro M.",n:5,d:"há 7 dias",t:"Ótimo atendimento. A dona Lúcia é uma pessoa super simpática, merece até um aumento.",mention:"Lúcia",ans:true},
-    {name:"Carlos A.",n:5,d:"há 1 semana",t:"Vanildo, excelente profissional. Estou muito satisfeito pelo serviço.",mention:"Vanildo",ans:true},
-    {name:"Laura M.",n:5,d:"há 1 semana",t:"Todos os atendentes são incríveis. Sempre que preciso vou na loja e tem tudo! Recomendo muito.",ans:true}
+    {name:"Carlos R.",n:5,d:"há 2 dias",t:"Serviço sempre de qualidade e excelente atendimento. Em BH só confio aqui para trocar bateria e ajustar meus relógios há anos!",ans:true},
+    {name:"Izolda M.",n:5,d:"há 3 dias",t:"Muito atenciosos, trocaram a bateria muito rápido. Super recomendo!",ans:true},
+    {name:"GV1M4R4E5_X",n:5,d:"há 3 dias",t:"Excelente! Funcionários experientes, atenciosos! Sempre faço manutenção nos meus relógios nessa loja.",ans:true},
+    {name:"Alfredo F.",n:5,d:"há 6 dias",t:"Fui atendido pelo Paulo, muito prestativo e atencioso. Nota 10.",mention:"Paulo",ans:true},
+    {name:"Hector L.",n:5,d:"há 6 dias",t:"Excelente atendimento. Charles, especialista nota 10.",mention:"Charles",ans:true},
+    {name:"Christopher C.",n:5,d:"há 6 dias",t:"Procure o Marcos: atendimento completo, super eficiente e carismático. Cheguei com um produto em mente e saí com mais 2 que agregarão muito!",mention:"Marcos",ans:true},
+    {name:"Meire M.",n:5,d:"há 1 semana",t:"Muito bem atendida pelo Marcos. Ótimo vendedor.",mention:"Marcos",ans:true},
+    {name:"Valeria V.",n:5,d:"há 1 semana",t:"Fui muito bem atendida pela Lúcia. Boa vontade em procurar o produto que eu precisava, com toda paciência.",mention:"Lúcia",ans:true},
+    {name:"Pietro M.",n:5,d:"há 1 semana",t:"Ótimo atendimento. A dona Lúcia é uma pessoa super simpática, merece até um aumento.",mention:"Lúcia",ans:true},
+    {name:"Carlos A.",n:5,d:"há 1 semana",t:"Vanildo, excelente profissional. Estou muito satisfeito pelo serviço.",mention:"Vanildo",ans:true}
   ];
   function starRow(n){ var s=""; for(var i=1;i<=5;i++){ s+='<span class="'+(i<=n?"":"off")+'">★</span>'; } return s; }
   var AV_CORES=["#4B49A8","#0F8A7E","#B5761A","#B04A64","#2E7D4F","#6D4C9E","#2C6BAF","#8A5A3C"];
@@ -955,7 +955,7 @@
   // Calculado sobre a DISTRIBUIÇÃO REAL de estrelas lida no Google Maps (a Places API
   // só devolve a nota arredondada, 4.6, que não serve: 4,55 e 4,64 dão metas 10x diferentes).
   // DIST é atualizado a cada leitura do Maps (api/update_feed.py --dist).
-  var DIST={5:914,4:204,3:59,2:10,1:22}, DIST_WHEN="17/08/2026";
+  var DIST={5:915,4:204,3:59,2:10,1:22}, DIST_WHEN="20/08/2026";
   var BASE_TOTAL=1142;                                  // base 09/07, para o "já foram X"
   var CNT=0, PTS=0;
   for(var k in DIST){ CNT+=DIST[k]; PTS+=k*DIST[k]; }
@@ -1050,54 +1050,50 @@
   var API_CONECTADA = false;   // vira true quando a API do Google Business Profile conectar (ai o botao Responder publica direto)
 
   var admData=[
-    {who:"Izolda Maia",n:5,d:"há 3 horas",men:"",ans:true,
+    {who:"Carlos Ferrarezi",n:5,d:"ontem",men:"",ans:true,
+     t:"(sem texto — só nota 5★)",
+     s:["Obrigado pela avaliação, Carlos! 😊 — Equipe Rei dos Estojos",
+        "Olá, Carlos! Agradecemos as 5 estrelas e a confiança. — Equipe Rei dos Estojos"]},
+    {who:"Carlos Rotman",n:5,d:"há 2 dias",men:"",ans:true,
+     t:"Serviço sempre de qualidade e excelente atendimento. Em BH só confio aqui para trocar bateria e ajustar meus relógios há anos!",
+     s:["Olá, Carlos! Que bom contar com a sua confiança há tantos anos. 😊 Obrigado! — Equipe Rei dos Estojos",
+        "Oi, Carlos! Ficamos felizes em ser a sua referência em BH para baterias e relógios. Volte sempre! — Equipe Rei dos Estojos"]},
+    {who:"Izolda Maia",n:5,d:"há 3 dias",men:"",ans:true,
      t:"Muito atenciosos, trocaram a bateria muito rápido. Super recomendo!",
      s:["Olá, Izolda! Que bom que a troca da bateria foi rápida e o atendimento agradou. 😊 Obrigado pela recomendação! — Equipe Rei dos Estojos",
         "Oi, Izolda! Ficamos felizes com seu retorno. Agilidade e atenção são o que buscamos todo dia. Volte sempre! — Equipe Rei dos Estojos"]},
-    {who:"GV1M4R4E5_X",n:5,d:"há 3 horas",men:"",ans:true,
+    {who:"GV1M4R4E5_X",n:5,d:"há 3 dias",men:"",ans:true,
      t:"Excelente! Funcionários experientes, atenciosos! Sempre faço manutenção nos meus relógios nessa loja.",
      s:["Muito obrigado pela confiança de sempre! 😊 É uma satisfação cuidar dos seus relógios. — Equipe Rei dos Estojos",
         "Ficamos felizes em ser a sua escolha para a manutenção dos relógios. Obrigado pela preferência! — Equipe Rei dos Estojos"]},
-    {who:"Alfredo Furst",n:5,d:"há 3 dias",men:"Paulo",ans:true,
+    {who:"Alfredo Furst",n:5,d:"há 6 dias",men:"Paulo",ans:true,
      t:"Fui atendido pelo Paulo, muito prestativo e atencioso. Nota 10.",
      s:["Olá, Alfredo! O Paulo vai adorar saber da sua nota 10. 😊 Obrigado pelo reconhecimento! — Equipe Rei dos Estojos",
         "Oi, Alfredo! Que bom que o Paulo fez a diferença no seu atendimento. Vamos passar o elogio para ele! — Equipe Rei dos Estojos"]},
-    {who:"Hector Luna",n:5,d:"há 3 dias",men:"Charles",ans:true,
+    {who:"Hector Luna",n:5,d:"há 6 dias",men:"Charles",ans:true,
      t:"Excelente atendimento. Charles, especialista nota 10.",
      s:["Olá, Hector! Obrigado pelo reconhecimento ao Charles. 😊 Vamos compartilhar com ele! — Equipe Rei dos Estojos",
         "Oi, Hector! Ficamos felizes que o Charles tenha resolvido tudo com você. Conte sempre conosco! — Equipe Rei dos Estojos"]},
-    {who:"Welbert Luiz de Souza",n:5,d:"há 3 dias",men:"",ans:true,
+    {who:"Welbert Luiz de Souza",n:5,d:"há 6 dias",men:"",ans:true,
      t:"(sem texto — só nota 5★)",
      s:["Obrigado pela avaliação, Welbert! 😊 — Equipe Rei dos Estojos",
         "Olá, Welbert! Agradecemos as 5 estrelas e a confiança. — Equipe Rei dos Estojos"]},
-    {who:"Christopher Conrado Chelis",n:5,d:"há 3 dias",men:"Marcos",ans:true,
+    {who:"Christopher Conrado Chelis",n:5,d:"há 6 dias",men:"Marcos",ans:true,
      t:"Procure o Marcos: atendimento completo, super eficiente e carismático. Cheguei com um produto em mente e saí com mais 2 que agregarão muito!",
      s:["Olá, Christopher! O Marcos vai ficar muito feliz com esse elogio. 😊 Obrigado pela confiança! — Equipe Rei dos Estojos",
         "Oi, Christopher! Que bom que o Marcos entendeu bem o que você precisava. Vamos passar o recado para ele! — Equipe Rei dos Estojos"]},
-    {who:"Meire Mara Maia",n:5,d:"há 5 dias",men:"Marcos",ans:true,
+    {who:"Meire Mara Maia",n:5,d:"há 1 semana",men:"Marcos",ans:true,
      t:"Muito bem atendida pelo Marcos. Ótimo vendedor.",
      s:["Olá, Meire! O Marcos vai adorar saber disso. 😊 Obrigado pelo carinho! — Equipe Rei dos Estojos",
         "Oi, Meire! Ficamos felizes com o seu elogio ao Marcos. Volte sempre! — Equipe Rei dos Estojos"]},
-    {who:"Mirix",n:5,d:"há 5 dias",men:"",ans:true,
+    {who:"Mirix",n:5,d:"há 1 semana",men:"",ans:true,
      t:"(sem texto — só nota 5★)",
      s:["Obrigado pelas 5 estrelas! 😊 — Equipe Rei dos Estojos",
         "Agradecemos a avaliação e a confiança. Volte sempre! — Equipe Rei dos Estojos"]},
-    {who:"Valeria Veiga",n:5,d:"há 6 dias",men:"Lúcia",ans:true,
-     t:"Fui muito bem atendida pela Lúcia. Boa vontade em procurar o produto que eu precisava, com toda paciência.",
-     s:["Olá, Valeria! A Lúcia vai ficar feliz com o seu reconhecimento. 😊 Obrigado! — Equipe Rei dos Estojos",
-        "Oi, Valeria! Paciência e boa vontade são a marca da Lúcia mesmo. Obrigado pela confiança! — Equipe Rei dos Estojos"]},
-    {who:"Pietro Maschietto",n:5,d:"há 7 dias",men:"Lúcia",ans:true,
-     t:"Ótimo atendimento. A dona Lúcia é uma pessoa super simpática, merece até um aumento.",
-     s:["Olá, Pietro! Vamos contar para a Lúcia — inclusive a parte do aumento. 😄 Obrigado! — Equipe Rei dos Estojos",
-        "Oi, Pietro! A simpatia da Lúcia é reconhecida por muitos clientes. Obrigado pelo carinho! — Equipe Rei dos Estojos"]},
     {who:"Mario Fernando Pasquel Tejada Junior",n:1,d:"há 2 semanas",men:"",ans:true,att:true,
      t:"Solicitei à minha filha que levasse meu relógio apenas para trocar as pilhas e, ao entregarem, a ludibriaram dizendo que tinha problema de fabricação; devolveram o relógio avariado e ainda cobraram. Isso foi má fé. Nunca mais passo nem na porta!",
      s:["Olá, Mario. Lamentamos muito o que aconteceu e levamos sua reclamação a sério. Gostaríamos de examinar o relógio e entender o ocorrido — pode falar conosco no (31) 3271-4631? — Equipe Rei dos Estojos",
         "Oi, Mario. Sentimos muito pela sua experiência. Nunca fazemos serviço sem autorização, e queremos apurar esse caso com você. Entre em contato pelo (31) 3271-4631, por favor. — Equipe Rei dos Estojos"]},
-    {who:"Micheias Barbosa Pacheco Júnior",n:4,d:"há 2 semanas",men:"",ans:true,
-     t:"Qualquer serviço relacionado a relógio levo sempre no Rei dos Estojos. Profissionalismo e atendimento, esse é o diferencial.",
-     s:["Olá, Micheias! Obrigado pela confiança de sempre. 😊 Estamos à disposição para o que precisar. — Equipe Rei dos Estojos",
-        "Oi, Micheias! Ficamos felizes em ser a sua referência em relógios. Obrigado! — Equipe Rei dos Estojos"]},
     {who:"André Oliveira",n:1,d:"há 6 meses",men:"",ans:true,att:true,
      t:"Minha esposa levou o relógio para trocar a bateria; depois de desmontado, disseram que o ponteiro do cronógrafo estava solto e cobraram para colocar no lugar.",
      s:["Olá, André. Sentimos muito pela experiência. Em cronógrafos, é comum identificarmos folgas já existentes só na abertura, e por isso sempre avisamos antes de qualquer ajuste. Gostaríamos de entender melhor o seu caso — pode nos chamar no (31) 3271-4631? Ficamos à disposição para ajudar. — Equipe Rei dos Estojos",
