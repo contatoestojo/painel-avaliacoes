@@ -955,7 +955,7 @@
   // Calculado sobre a DISTRIBUIÇÃO REAL de estrelas lida no Google Maps (a Places API
   // só devolve a nota arredondada, 4.6, que não serve: 4,55 e 4,64 dão metas 10x diferentes).
   // DIST é atualizado a cada leitura do Maps (api/update_feed.py --dist).
-  var DIST={5:924,4:204,3:59,2:10,1:22}, DIST_WHEN="02/09/2026";
+  var DIST={5:924,4:204,3:59,2:10,1:22}, DIST_WHEN="03/09/2026";
   var BASE_TOTAL=1142;                                  // base 09/07, para o "já foram X"
   var CNT=0, PTS=0;
   for(var k in DIST){ CNT+=DIST[k]; PTS+=k*DIST[k]; }
