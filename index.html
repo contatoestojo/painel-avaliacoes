@@ -476,7 +476,7 @@
       </div>
     </div>
     <div class="spacer"></div>
-    <div class="updated">Atualizado · <b>4 set 2026</b><br>lido do seu Google</div>
+    <div class="updated">Atualizado · <b>5 set 2026</b><br>lido do seu Google</div>
     <button class="admin-btn" id="admOpen" type="button">🔒 Admin</button>
   </div>
 </header>
@@ -978,7 +978,7 @@
   setTxt("goalDist",DIST[5]+"× 5★, "+DIST[4]+"× 4★, "+DIST[3]+"× 3★, "+DIST[2]+"× 2★, "+DIST[1]+"× 1★");
 
   // SEMANA × SEMANA (real: 27/07→04/08 = +17 ; 20/07→27/07 = +6)
-  var wThis=6, wPrev=3;
+  var wThis=4, wPrev=5;
   setTxt("wcThis",wThis); setTxt("wcPrev",wPrev);
   var wPct=wPrev>0?Math.round((wThis-wPrev)/wPrev*1000)/10:0;
   var wcd=$("wcDelta");
@@ -987,7 +987,7 @@
   // RECORDES — REAIS, calculados dos snapshots em dados/ (recalcular a cada refresh)
   setTxt("recDay",9); setTxt("recDayWhen","10 jul");        // +9 novas em 1 dia (09/07 -> 10/07)
   setTxt("recStreak",78);                                    // total de novas na campanha (09/07 -> 30/07)
-  setTxt("recBest","1,4"); setTxt("recBestWhen","08/07–04/08"); // media por dia (35 em 21 dias)
+  setTxt("recBest","1,3"); setTxt("recBestWhen","08/07–04/08"); // media por dia (35 em 21 dias)
 
   // ELOGIOS POR SETOR
   var sect=[{t:"Serviço / conserto",c:41},{t:"Atendimento no balcão",c:33},{t:"Vendas",c:18},{t:"Entrega",c:9}];
