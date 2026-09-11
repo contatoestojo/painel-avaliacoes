@@ -920,16 +920,16 @@
 
   // feed (real reviews)
   var reviews=[
-    {name:"Inês A.",n:5,d:"há 21 horas",t:"Gentil e alegre. Parabéns, Taís. Obrigada!",mention:"Taís",ans:true},
-    {name:"Gabriel M.",n:5,d:"há 6 dias",t:"Tatiane muito atenciosa. Recomendo!",mention:"Tatiane",ans:true},
+    {name:"Leonardo P.",n:5,d:"há 17 horas",t:"Nota 5 estrelas, sem comentário.",ans:true},
+    {name:"Anderson M.",n:5,d:"há 22 horas",t:"Excelente!",ans:true},
+    {name:"Inês A.",n:5,d:"há 3 dias",t:"Gentil e alegre. Parabéns, Taís. Obrigada!",mention:"Taís",ans:true},
+    {name:"Gabriel M.",n:5,d:"há 1 semana",t:"Tatiane muito atenciosa. Recomendo!",mention:"Tatiane",ans:true},
     {name:"Anderson D.",n:5,d:"há 1 semana",t:"Nunca vi tanta gentileza! Excelente!",ans:true},
     {name:"Richard R.",n:5,d:"há 1 semana",t:"Muito bom!",ans:true},
     {name:"Maria D.",n:5,d:"há 2 semanas",t:"Ótimo! Fui atendida pelo Charles.",mention:"Charles",ans:true},
     {name:"Bruno L.",n:5,d:"há 2 semanas",t:"Lúcia Helena é a melhor: atenciosa, excelente profissional!",mention:"Lúcia Helena",ans:true},
     {name:"Silzi G.",n:5,d:"há 2 semanas",t:"Excelente atendimento! Ana Clara foi super atenciosa.",mention:"Ana Clara",ans:true},
-    {name:"Thais G.",n:5,d:"há 2 semanas",t:"Fui atendida pelas colaboradoras Shirley Mendes e Ana Clara com muita atenção e carinho. Parabéns!",mention:"Shirley e Ana Clara",ans:true},
-    {name:"Kaiky A.",n:5,d:"há 2 semanas",t:"Atendimento da Ana Clara, nota 1000!",mention:"Ana Clara",ans:true},
-    {name:"Janice F.",n:5,d:"há 3 semanas",t:"Excelente atendimento! Helder muito atencioso e educado!",mention:"Helder",ans:true}
+    {name:"Thais G.",n:5,d:"há 2 semanas",t:"Fui atendida pelas colaboradoras Shirley Mendes e Ana Clara com muita atenção e carinho. Parabéns!",mention:"Shirley e Ana Clara",ans:true}
   ];
   function starRow(n){ var s=""; for(var i=1;i<=5;i++){ s+='<span class="'+(i<=n?"":"off")+'">★</span>'; } return s; }
   var AV_CORES=["#4B49A8","#0F8A7E","#B5761A","#B04A64","#2E7D4F","#6D4C9E","#2C6BAF","#8A5A3C"];
@@ -1050,11 +1050,19 @@
   var API_CONECTADA = false;   // vira true quando a API do Google Business Profile conectar (ai o botao Responder publica direto)
 
   var admData=[
-    {who:"Inês Antunes",n:5,d:"há 21 horas",men:"Taís",ans:true,
+    {who:"Leonardo Pinto Villela",n:5,d:"há 17 horas",men:"",ans:true,
+     t:"(sem texto — só nota 5★)",
+     s:["Olá, Leonardo! Obrigado pelas 5 estrelas. 😊 Volte sempre! — Equipe Rei dos Estojos",
+        "Oi, Leonardo! Agradecemos a sua avaliação e a preferência. — Equipe Rei dos Estojos"]},
+    {who:"Anderson M",n:5,d:"há 22 horas",men:"",ans:true,
+     t:"Excelente!",
+     s:["Olá, Anderson! Obrigado pelo 'excelente' e pelas 5 estrelas. 😊 — Equipe Rei dos Estojos",
+        "Oi, Anderson! Que bom que você gostou. Volte sempre! — Equipe Rei dos Estojos"]},
+    {who:"Inês Antunes",n:5,d:"há 3 dias",men:"Taís",ans:true,
      t:"Gentil e alegre. Parabéns, Taís. Obrigada!",
      s:["Olá, Inês! A Taís vai ficar muito feliz com o seu elogio. 😊 Obrigado! — Equipe Rei dos Estojos",
         "Oi, Inês! Que bom que a Taís cuidou bem de você. Volte sempre! — Equipe Rei dos Estojos"]},
-    {who:"Gabriel Marçal",n:5,d:"há 6 dias",men:"Tatiane",ans:true,
+    {who:"Gabriel Marçal",n:5,d:"há 1 semana",men:"Tatiane",ans:true,
      t:"Tatiane muito atenciosa. Recomendo!",
      s:["Olá, Gabriel! A Tatiane vai ficar muito feliz com o seu elogio. 😊 Obrigado! — Equipe Rei dos Estojos",
         "Oi, Gabriel! Que bom que a Tatiane cuidou bem de você. Volte sempre! — Equipe Rei dos Estojos"]},
