@@ -920,16 +920,15 @@
 
   // feed (real reviews)
   var reviews=[
-    {name:"Otávio Z.",n:5,d:"há 6 dias",t:"Atendimento excepcional e muito profissionalismo da equipe.",ans:true},
+    {name:"Wenderson M.",n:5,d:"há 5 dias",t:"Atendimento foi top, muito bom!"},
+    {name:"Nicolau M.",n:5,d:"há 7 dias",t:"Excelente atendimento. Fui atendido pela Lúcia Helena — super profissional, educada e gentil. Agradeço a atenção de vocês!",mention:"Lúcia Helena"},
+    {name:"Otávio Z.",n:5,d:"há 7 dias",t:"Atendimento excepcional e muito profissionalismo da equipe.",ans:true},
     {name:"Elizabeth O.",n:4,d:"há 2 semanas",t:"Excelente! Sou cliente há muitos anos, recomendo.",ans:true},
     {name:"Anderson M.",n:5,d:"há 2 semanas",t:"Excelente!",ans:true},
-    {name:"Inês A.",n:5,d:"há 2 semanas",t:"Gentil e alegre. Parabéns, Taís. Obrigada!",mention:"Taís",ans:true},
+    {name:"Inês A.",n:5,d:"há 3 semanas",t:"Gentil e alegre. Parabéns, Taís. Obrigada!",mention:"Taís",ans:true},
     {name:"Gabriel M.",n:5,d:"há 3 semanas",t:"Tatiane muito atenciosa. Recomendo!",mention:"Tatiane",ans:true},
-    {name:"Anderson D.",n:5,d:"há 3 semanas",t:"Nunca vi tanta gentileza! Excelente!",ans:true},
-    {name:"Richard R.",n:5,d:"há 3 semanas",t:"Muito bom!",ans:true},
-    {name:"Maria D.",n:5,d:"há 4 semanas",t:"Ótimo! Fui atendida pelo Charles.",mention:"Charles",ans:true},
-    {name:"Bruno L.",n:5,d:"há 4 semanas",t:"Lúcia Helena é a melhor: atenciosa, excelente profissional!",mention:"Lúcia Helena",ans:true},
-    {name:"Silzi G.",n:5,d:"há 1 mês",t:"Excelente atendimento! Ana Clara foi super atenciosa.",mention:"Ana Clara",ans:true}
+    {name:"Anderson D.",n:5,d:"há 4 semanas",t:"Nunca vi tanta gentileza! Excelente!",ans:true},
+    {name:"Richard R.",n:5,d:"há 4 semanas",t:"Muito bom!",ans:true}
   ];
   function starRow(n){ var s=""; for(var i=1;i<=5;i++){ s+='<span class="'+(i<=n?"":"off")+'">★</span>'; } return s; }
   var AV_CORES=["#4B49A8","#0F8A7E","#B5761A","#B04A64","#2E7D4F","#6D4C9E","#2C6BAF","#8A5A3C"];
@@ -1050,7 +1049,15 @@
   var API_CONECTADA = false;   // vira true quando a API do Google Business Profile conectar (ai o botao Responder publica direto)
 
   var admData=[
-    {who:"Otávio Zschaber Cordeiro Júnior",n:5,d:"há 6 dias",men:"",ans:true,
+    {who:"Wenderson Magela",n:5,d:"há 5 dias",men:"",ans:false,
+     t:"Atendimento foi top, muito bom!",
+     s:["Olá, Wenderson! Que bom que você gostou do atendimento. 😊 Obrigado pelas 5 estrelas! — Equipe Rei dos Estojos",
+        "Oi, Wenderson! Ficamos felizes com o seu elogio. Volte sempre! — Equipe Rei dos Estojos"]},
+    {who:"Nicolau Maggi",n:5,d:"há 7 dias",men:"Lúcia Helena",ans:false,
+     t:"Excelente atendimento. Fui atendido pela Lúcia Helena — super profissional, educada e gentil. Agradeço a atenção de vocês!",
+     s:["Olá, Nicolau! A Lúcia Helena vai ficar muito feliz com o seu elogio. 😊 Obrigado! — Equipe Rei dos Estojos",
+        "Oi, Nicolau! Que bom que a Lúcia Helena cuidou tão bem de você. Volte sempre! — Equipe Rei dos Estojos"]},
+    {who:"Otávio Zschaber Cordeiro Júnior",n:5,d:"há 7 dias",men:"",ans:true,
      t:"Atendimento excepcional e muito profissionalismo da equipe.",
      s:["Olá, Otávio! Muito obrigado pelo elogio ao nosso atendimento. 😊 Volte sempre! — Equipe Rei dos Estojos",
         "Oi, Otávio! Ficamos felizes com as 5 estrelas e com o reconhecimento da equipe. — Equipe Rei dos Estojos"]},
@@ -1066,7 +1073,7 @@
      t:"Excelente!",
      s:["Olá, Anderson! Obrigado pelo 'excelente' e pelas 5 estrelas. 😊 — Equipe Rei dos Estojos",
         "Oi, Anderson! Que bom que você gostou. Volte sempre! — Equipe Rei dos Estojos"]},
-    {who:"Inês Antunes",n:5,d:"há 2 semanas",men:"Taís",ans:true,
+    {who:"Inês Antunes",n:5,d:"há 3 semanas",men:"Taís",ans:true,
      t:"Gentil e alegre. Parabéns, Taís. Obrigada!",
      s:["Olá, Inês! A Taís vai ficar muito feliz com o seu elogio. 😊 Obrigado! — Equipe Rei dos Estojos",
         "Oi, Inês! Que bom que a Taís cuidou bem de você. Volte sempre! — Equipe Rei dos Estojos"]},
@@ -1074,22 +1081,14 @@
      t:"Tatiane muito atenciosa. Recomendo!",
      s:["Olá, Gabriel! A Tatiane vai ficar muito feliz com o seu elogio. 😊 Obrigado! — Equipe Rei dos Estojos",
         "Oi, Gabriel! Que bom que a Tatiane cuidou bem de você. Volte sempre! — Equipe Rei dos Estojos"]},
-    {who:"Anderson de Alvarenga",n:5,d:"há 3 semanas",men:"",ans:true,
+    {who:"Anderson de Alvarenga",n:5,d:"há 4 semanas",men:"",ans:true,
      t:"Nunca vi tanta gentileza! Excelente!",
      s:["Olá, Anderson! Que alegria ler isso. Gentileza é o nosso jeito de atender. 😊 Obrigado! — Equipe Rei dos Estojos",
         "Oi, Anderson! Muito obrigado pelo carinho. Volte sempre! — Equipe Rei dos Estojos"]},
-    {who:"Richard Rocha",n:5,d:"há 3 semanas",men:"",ans:true,
+    {who:"Richard Rocha",n:5,d:"há 4 semanas",men:"",ans:true,
      t:"Muito bom!",
      s:["Olá, Richard! Obrigado pelas 5 estrelas. 😊 Volte sempre! — Equipe Rei dos Estojos",
         "Oi, Richard! Que bom que você gostou. Agradecemos a preferência! — Equipe Rei dos Estojos"]},
-    {who:"Maria de Fátima Duarte (Fafá)",n:5,d:"há 4 semanas",men:"Charles",ans:true,
-     t:"Ótimo! Fui atendida pelo Charles.",
-     s:["Olá, Maria de Fátima! O Charles vai ficar muito feliz com o seu elogio. 😊 Obrigado! — Equipe Rei dos Estojos",
-        "Oi, Fafá! Que bom que o Charles cuidou bem de você. Volte sempre! — Equipe Rei dos Estojos"]},
-    {who:"Bruno Luz Oliveira",n:5,d:"há 4 semanas",men:"Lúcia Helena",ans:true,
-     t:"Lúcia Helena é a melhor: atenciosa, excelente profissional!",
-     s:["Olá, Bruno! A Lúcia Helena vai ficar muito feliz com o seu elogio. 😊 Obrigado! — Equipe Rei dos Estojos",
-        "Oi, Bruno! Que bom que a Lúcia Helena cuidou tão bem de você. Volte sempre! — Equipe Rei dos Estojos"]},
     {who:"André Oliveira",n:1,d:"há 6 meses",men:"",ans:true,att:true,
      t:"Minha esposa levou o relógio para trocar a bateria; depois de desmontado, disseram que o ponteiro do cronógrafo estava solto e cobraram para colocar no lugar.",
      s:["Olá, André. Sentimos muito pela experiência. Em cronógrafos, é comum identificarmos folgas já existentes só na abertura, e por isso sempre avisamos antes de qualquer ajuste. Gostaríamos de entender melhor o seu caso — pode nos chamar no (31) 3271-4631? Ficamos à disposição para ajudar. — Equipe Rei dos Estojos",
