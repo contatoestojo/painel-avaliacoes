@@ -590,7 +590,7 @@
   <div class="grid cols-2" style="margin-top:16px">
     <div class="card">
       <div class="card-h"><h3>Distribuição de estrelas</h3></div>
-      <div class="card-sub">Como as notas se dividem (estimativa a partir da média 4,6)</div>
+      <div class="card-sub">Como as notas se dividem (contagem real do Google Maps)</div>
       <div id="dist"></div>
     </div>
 
@@ -887,12 +887,6 @@
   var dEl=document.getElementById("kpi30delta");
   if(prev30>0){ var pct=Math.round((last30-prev30)/prev30*100); dEl.textContent=(pct>=0?"＋":"–")+Math.abs(pct)+"%"; if(pct<0){dEl.className="delta flat";} }
 
-  // distribution (estimate consistent with 4.6)
-  var dist=[{s:5,p:78},{s:4,p:12},{s:3,p:4},{s:2,p:2},{s:1,p:4}], TOT=1151;
-  var star='<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.9 7.5.6-5.7 4.9 1.8 7.3L12 17.8 5.4 21.7l1.8-7.3L1.5 9.5 9 8.9z"/></svg>';
-  document.getElementById("dist").innerHTML=dist.map(function(r){
-    return '<div class="dist-row"><span class="lab">'+r.s+" "+star+'</span><span class="dist-track"><span class="dist-fill" style="width:'+r.p+'%"></span></span><span class="val">'+Math.round(TOT*r.p/100).toLocaleString("pt-BR")+"</span></div>";
-  }).join("");
 
   // rating evolution (illustrative months)
   var rl=[4.42,4.44,4.43,4.47,4.5,4.49,4.52,4.55,4.54,4.57,4.58,4.6];
@@ -954,19 +948,23 @@
   // META — quantas 5★ para a próxima nota.
   // Calculado sobre a DISTRIBUIÇÃO REAL de estrelas lida no Google Maps (a Places API
   // só devolve a nota arredondada, 4.6, que não serve: 4,55 e 4,64 dão metas 10x diferentes).
-  // DIST é atualizado a cada leitura do Maps (api/update_feed.py --dist).
+  // DIST é atualizado a cada leitura do Maps (api/update_dist.py).
   var DIST={5:939,4:206,3:59,2:10,1:22}, DIST_WHEN="15/10/2026";
   var BASE_TOTAL=1142;                                  // base 09/07, para o "já foram X"
   var CNT=0, PTS=0;
   for(var k in DIST){ CNT+=DIST[k]; PTS+=k*DIST[k]; }
   var AVG_REAL=PTS/CNT;                                 // média exata, não arredondada
-  var notaAtual=Math.round(AVG_REAL*10)/10;             // 4.6 (a que o Google exibe)
-  var nextDisp=Math.round((notaAtual+0.1)*10)/10;       // 4.7
-  var thr=nextDisp-0.05;                                // 4.65 -> a partir daqui o Google exibe 4,7
-  // n avaliações 5★ tais que (PTS+5n)/(CNT+n) >= thr
-  var need=Math.max(0, Math.ceil((thr*CNT-PTS)/(5-thr)));
+  // Google exibe a média simples ARREDONDADA (4,65 -> 4,7; testado no Maps em 15/10/2026).
+  // Conta só com inteiros: com decimais, 4,7-0,05 vira 4,6500000000000004 e a meta saía +1.
+  var dec=Math.floor((20*PTS+CNT)/(2*CNT));             // 46 = nota exibida em décimos
+  var notaAtual=dec/10;                                 // 4.6
+  var nextDisp=(dec+1)/10;                              // 4.7
+  var A=2*(dec+1)-1;                                    // 93 -> limite 93/20 = 4,65
+  // n avaliações 5★ tais que (PTS+5n)/(CNT+n) >= A/20  <=>  n*(100-A) >= A*CNT-20*PTS
+  function falta(c,p){ return dec>=50?0:Math.max(0,Math.ceil((A*c-20*p)/(100-A))); }
+  var need=falta(CNT,PTS);
   // quanto uma nova 1★ encarece a meta (mostra o estrago de uma nota baixa)
-  var cost1=Math.max(0, Math.ceil((thr*(CNT+1)-(PTS+1))/(5-thr)))-need;
+  var cost1=falta(CNT+1,PTS+1)-need;
   setTxt("goalNum",need);
   setTxt("goalNum2",need);
   setTxt("goalDone",CNT-BASE_TOTAL);                    // avaliações novas (não "5★ novas")
@@ -976,6 +974,13 @@
   setTxt("goalWhen",DIST_WHEN);
   setTxt("goalCost1",cost1);
   setTxt("goalDist",DIST[5]+"× 5★, "+DIST[4]+"× 4★, "+DIST[3]+"× 3★, "+DIST[2]+"× 2★, "+DIST[1]+"× 1★");
+
+  // DISTRIBUIÇÃO DE ESTRELAS — barras com a contagem real (mesma DIST da meta)
+  var starIco='<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.9 7.5.6-5.7 4.9 1.8 7.3L12 17.8 5.4 21.7l1.8-7.3L1.5 9.5 9 8.9z"/></svg>';
+  $("dist").innerHTML=[5,4,3,2,1].map(function(k){
+    var p=CNT?DIST[k]/CNT*100:0;
+    return '<div class="dist-row"><span class="lab">'+k+" "+starIco+'</span><span class="dist-track"><span class="dist-fill" style="width:'+p.toFixed(1)+'%"></span></span><span class="val">'+DIST[k].toLocaleString("pt-BR")+"</span></div>";
+  }).join("");
 
   // SEMANA × SEMANA (real: 27/07→04/08 = +17 ; 20/07→27/07 = +6)
   var wThis=4, wPrev=5;
