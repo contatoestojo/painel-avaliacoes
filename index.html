@@ -136,6 +136,9 @@
   .bar{fill:var(--accent-2);opacity:.62;transition:opacity .12s;cursor:pointer;}
   .bar:hover{opacity:1;}
   .bar.last{fill:var(--accent);opacity:.95;}
+  .bar.aprox{opacity:.38;}
+  .bar.aprox:hover{opacity:.8;}
+  .bar.gap{fill:var(--line);opacity:1;}
   .grid-line{stroke:var(--line);stroke-width:1;}
   .axis-x{fill:var(--faint);font-family:var(--mono);font-size:10px;}
   .axis-y{fill:var(--faint);font-family:var(--mono);font-size:10px;}
@@ -503,7 +506,7 @@
     <div class="card kpi">
       <div class="card-h"><span class="label">Novas · últimos 30 dias</span></div>
       <div class="big" id="kpi30">—</div>
-      <div class="foot"><span class="delta up" id="kpi30delta">＋</span> ritmo de chegada de avaliações</div>
+      <div class="foot"><span class="delta up" id="kpi30delta">＋</span> vs. os 30 dias anteriores (média por dia)</div>
     </div>
   </div>
 
@@ -623,7 +626,7 @@
   <div class="grid cols-2" style="margin-top:16px">
     <div class="card">
       <div class="card-h"><h3>Evolução da nota média</h3></div>
-      <div class="card-sub">A qualidade média ao longo dos meses</div>
+      <div class="card-sub">Média exata no fim de cada mês (o Google mostra arredondada, com 1 casa)</div>
       <div class="rateline"><svg id="rateline" viewBox="0 0 420 170" preserveAspectRatio="none" role="img" aria-label="Evolução da nota média"></svg></div>
     </div>
 
@@ -657,7 +660,6 @@
       
     </div>
     <div class="seg" id="seg" role="group" aria-label="Período">
-      <button data-p="dia">Dia</button>
       <button data-p="7">7 dias</button>
       <button data-p="30" aria-pressed="true">30 dias</button>
       <button data-p="6m">6 meses</button>
@@ -757,63 +759,78 @@
   "use strict";
   var reduce = matchMedia("(prefers-reduced-motion:reduce)").matches;
 
-  // deterministic pseudo-random for stable illustrative history
-  function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
-  var rnd = mulberry(20260709);
+  /*SERIES-INICIO*/
+  // Gerado por api/build_series.py (dados reais) -- nao editar a mao.
+  var DIARIO={"ini":"2025-09-11","hoje":"2026-10-15","campanha":"2026-07-08","base":"2026-07-09","n":[0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,2,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,2,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,31,0,9,0,0,3,8,0,0,3,0,0,3,0,1,0,0,0,0,5,0,0,3,1,0,0,4,9,0,0,0,0,0,0,0,0,11,1,0,0,6,0,1,0,1,0,1,0,0,0,1,1,2,0,1,1,1,0,1,0,0,0,0,1,0,2,0,0,0,1,0,0,0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0,0,5,1,0,0,0,1,1,1],"f":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaarggrrggrggrgrggggrggrrggrrggggggggrrggrrrgrrrrrrrrrgrrrrrrrrrrrrrgrrrrrrgrrrrrrggrrrggggggrrrrrrrr","kpi":{"n":12,"pct":-39,"dias":30,"ant":21,"dias_ant":32,"desde":"2026-08-14","ate":"2026-09-15"}};
+  var NOTA_MES=[["2025-10-31",4.615809],["2025-11-30",4.616865],["2025-12-31",4.611314],["2026-01-31",4.605455],["2026-02-28",4.605813],["2026-03-31",4.606884],["2026-04-30",4.608303],["2026-05-31",4.609009],["2026-06-30",4.609361],["2026-07-31",4.631579],["2026-08-31",4.638455],["2026-09-30",4.640587],["2026-10-15",4.642395]];
+  /*SERIES-FIM*/
 
-  // build ~730 days of illustrative daily counts, gently growing, summing ~1142
-  var DAYS = 730, today = new Date(2026,6,9); // 9 jul 2026
-  var daily = [];
-  for(var i=DAYS-1;i>=0;i--){
-    var d = new Date(today); d.setDate(d.getDate()-i);
-    var progress = (DAYS-1-i)/(DAYS-1);              // 0..1 over time
-    var base = 0.6 + progress*1.9;                    // grows from ~0.6 to ~2.5/day
-    var dow = d.getDay();
-    var wk = (dow===0)?0.25:(dow===6?0.7:1);          // slower weekends, closed-ish sunday
-    var noise = rnd()*1.4;
-    var c = Math.max(0, Math.round((base*wk + noise) - 0.4));
-    daily.push({date:d, count:c});
-  }
-  // normalize sum to 1142
-  var sum = daily.reduce(function(s,x){return s+x.count;},0);
-  var k = 1142/sum;
-  daily.forEach(function(x){ x.count = Math.round(x.count*k); });
-
+  // ===== COMENTÁRIOS POR DIA — dados reais (DIARIO, gerado por api/build_series.py) =====
+  // f: "r" = leitura diária do Places (exata) · "g" = dia sem leitura (soma no próximo dia lido)
+  //    "a" = antes de 09/07/2026, data como o Google mostra ("há N semanas" -> aproximada)
   var MES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+  function pd(iso){ var p=iso.split("-"); return new Date(+p[0],+p[1]-1,+p[2]); }
   function fmt(d){ return d.getDate()+" "+MES[d.getMonth()]; }
   function fmtShort(d){ return ("0"+d.getDate()).slice(-2)+"/"+("0"+(d.getMonth()+1)).slice(-2); }
+  var CAMP = pd(DIARIO.campanha), d0 = pd(DIARIO.ini);
+  var daily = DIARIO.n.map(function(c,i){
+    var d=new Date(d0); d.setDate(d.getDate()+i);
+    return {date:d, count:c, f:DIARIO.f.charAt(i)};
+  });
+  daily.forEach(function(x,i){                       // leitura depois de dias sem leitura: soma desde
+    if(x.f==="r" && i>0 && daily[i-1].f==="g"){ var j=i-1; while(j>0 && daily[j-1].f==="g") j--; x.desde=daily[j].date; }
+  });
+  function noteDia(x){
+    if(x.f==="g") return " · sem leitura neste dia (entra no próximo)";
+    if(x.desde) return " · soma desde "+fmt(x.desde);
+    if(x.f==="a") return " · data aproximada";
+    return "";
+  }
+  function within(d,a,b){ return +d>=+a && +d<=+b; }
+  function nAv(c){ return c+(c===1?" avaliação":" avaliações"); }
+  function fimMes(d){ return new Date(d.getFullYear(),d.getMonth()+1,0).getDate(); }
+  // agrupa dias num balde: barra clara quando a maior parte tem data aproximada
+  function balde(sl,label,sub,extra){
+    var c=0, ap=0; sl.forEach(function(x){ c+=x.count; if(x.f==="a") ap+=x.count; });
+    var a0=sl[0].date, a1=sl[sl.length-1].date;
+    return {label:label, count:c, camp:within(CAMP,a0,a1), aprox:c>0&&ap*2>c,
+            sub:sub+(extra||"")+(ap>0?" · "+(ap===c?"data aproximada":ap+" com data aproximada"):"")};
+  }
+  function notas(data,base){
+    var t=base;
+    if(data.some(function(d){return d.aprox;})) t+=" · barras claras = data aproximada (antes da campanha o Google só mostra “há N semanas”)";
+    if(data.some(function(d){return d.gap;})) t+=" · traço cinza = dia sem leitura (o que chegou entra no próximo dia)";
+    return t;
+  }
 
-  // aggregation per period -> [{label, count, sub}]
+  // aggregation per period -> [{label, count, sub, camp, aprox, gap}]
   function buckets(p){
-    if(p==="dia"){
-      // last 24h in 2h buckets (illustrative)
-      var out=[]; var hrs=[0,2,4,6,8,10,12,14,16,18,20,22];
-      var pat=[0,0,0,0,1,2,3,2,3,2,1,0];
-      for(var i=0;i<hrs.length;i++){ out.push({label:("0"+hrs[i]).slice(-2)+"h", count:Math.max(0,Math.round(pat[i]*(0.6+rnd()*0.9))), sub:"hoje"}); }
-      return {data:out, range:"Hoje, por faixa de horário"};
-    }
     if(p==="7"||p==="30"){
-      var n=+p, arr=daily.slice(-n).map(function(x){return {label:fmtShort(x.date), count:x.count, sub:fmt(x.date)};});
-      return {data:arr, range:"Últimos "+n+" dias, um por dia"};
+      var n=+p, arr=daily.slice(-n).map(function(x){
+        return {label:fmtShort(x.date), count:x.count, sub:fmt(x.date)+noteDia(x), camp:+x.date===+CAMP, aprox:x.f==="a"&&x.count>0, gap:x.f==="g"};
+      });
+      return {data:arr, range:notas(arr,"Últimos "+n+" dias, um por dia (leitura diária do Google)")};
     }
     if(p==="6m"){
-      // last ~26 weeks
       var wks=[], last=daily.slice(-182);
       for(var w=0;w<last.length;w+=7){
-        var slice=last.slice(w,w+7);
-        var c=slice.reduce(function(s,x){return s+x.count;},0);
-        wks.push({label:fmtShort(slice[0].date), count:c, sub:"semana de "+fmt(slice[0].date)});
+        var sl=last.slice(w,w+7);
+        wks.push(balde(sl, fmtShort(sl[0].date), "semana de "+fmt(sl[0].date)+" a "+fmt(sl[sl.length-1].date)));
       }
-      return {data:wks, range:"Últimos 6 meses, por semana"};
+      return {data:wks, range:notas(wks,"Últimos 6 meses, por semana")};
     }
-    // 1 ano -> 12 months
+    // 1 ano -> 12 meses de calendário (o mês atual vai até hoje)
+    var hoje=daily[daily.length-1].date, m0=new Date(hoje.getFullYear(),hoje.getMonth()-11,1);
     var months={}, order=[];
-    daily.slice(-365).forEach(function(x){
+    daily.forEach(function(x){
+      if(+x.date<+m0) return;
       var key=x.date.getFullYear()+"-"+x.date.getMonth();
-      if(!(key in months)){ months[key]={label:MES[x.date.getMonth()], count:0, sub:MES[x.date.getMonth()]+" "+x.date.getFullYear()}; order.push(key); }
-      months[key].count+=x.count;
+      if(!(key in months)){ months[key]=[]; order.push(key); }
+      months[key].push(x);
     });
-    return {data:order.map(function(k){return months[k];}), range:"Últimos 12 meses, por mês"};
+    var data=order.map(function(k){ var sl=months[k], d=sl[0].date, e=sl[sl.length-1].date;
+      return balde(sl, MES[d.getMonth()], MES[d.getMonth()]+" "+d.getFullYear(), (+e===+hoje&&e.getDate()<fimMes(e))?" (até hoje)":""); });
+    return {data:data, range:notas(data,"Últimos 12 meses, por mês")};
   }
 
   var chart=document.getElementById("chart"), tip=document.getElementById("tip"),
@@ -838,7 +855,8 @@
     data.forEach(function(d,i){
       var bh=(d.count/max)*ih, x=PADL+i*(bw+gap), y=PADT+ih-bh;
       var last=(i===n-1);
-      frag+='<rect class="bar'+(last?' last':'')+'" x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+Math.max(0.5,bw).toFixed(1)+'" height="'+Math.max(0,bh).toFixed(1)+'" rx="'+(bw>6?2:0.5)+'" data-i="'+i+'"><title>'+d.sub+": "+d.count+' avaliações</title></rect>';
+      if(d.gap&&!d.count){ bh=3; y=PADT+ih-bh; }                // dia sem leitura: traço cinza
+      frag+='<rect class="bar'+(last?' last':'')+(d.aprox?' aprox':'')+(d.gap&&!d.count?' gap':'')+'" x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+Math.max(0.5,bw).toFixed(1)+'" height="'+Math.max(0,bh).toFixed(1)+'" rx="'+(bw>6?2:0.5)+'" data-i="'+i+'"></rect>';
     });
     // x labels (sparse: ~6)
     var step=Math.ceil(n/6);
@@ -847,12 +865,13 @@
       var x=PADL+i*(bw+gap)+bw/2;
       frag+='<text class="axis-x" x="'+x.toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle">'+d.label+'</text>';
     });
-    // campaign marker (today = right edge) for ranges that include it
-    if(p==="30"||p==="6m"||p==="1a"||p==="7"){
-      var cx=PADL+(n-1)*(bw+gap)+bw/2;
+    // marcador do lançamento da campanha (08/07), quando está no período
+    data.forEach(function(d,i){
+      if(!d.camp) return;
+      var cx=PADL+i*(bw+gap)+bw/2;
       frag+='<line class="camp-line" x1="'+cx.toFixed(1)+'" y1="'+PADT+'" x2="'+cx.toFixed(1)+'" y2="'+(PADT+ih)+'"/>';
-      frag+='<text class="camp-tag" x="'+(cx-4).toFixed(1)+'" y="'+(PADT+9)+'" text-anchor="end">campanha ▸</text>';
-    }
+      frag+='<text class="camp-tag" x="'+(cx+4).toFixed(1)+'" y="'+(PADT+9)+'" text-anchor="start">◂ início da campanha</text>';
+    });
     chart.innerHTML=frag;
     chartRange.textContent=b.range;
     chartTotal.textContent=data.reduce(function(s,x){return s+x.count;},0).toLocaleString("pt-BR");
@@ -861,7 +880,7 @@
     chart.querySelectorAll(".bar").forEach(function(r){
       r.addEventListener("mousemove",function(e){
         var d=data[+r.getAttribute("data-i")];
-        tip.innerHTML="<b>"+d.count+"</b> "+(d.count===1?"avaliação":"avaliações")+"<br>"+d.sub;
+        tip.innerHTML=(d.gap&&!d.count)?"<b>sem leitura</b><br>"+d.sub:"<b>"+d.count+"</b> "+(d.count===1?"avaliação":"avaliações")+"<br>"+d.sub;
         var wrap=chart.parentElement.getBoundingClientRect();
         tip.style.left=(e.clientX-wrap.left)+"px";
         tip.style.top=(e.clientY-wrap.top)+"px";
@@ -881,27 +900,54 @@
   render("30");
 
   // KPI 30 days
-  var last30=daily.slice(-30).reduce(function(s,x){return s+x.count;},0);
-  var prev30=daily.slice(-60,-30).reduce(function(s,x){return s+x.count;},0);
-  document.getElementById("kpi30").textContent=last30;
-  var dEl=document.getElementById("kpi30delta");
-  if(prev30>0){ var pct=Math.round((last30-prev30)/prev30*100); dEl.textContent=(pct>=0?"＋":"–")+Math.abs(pct)+"%"; if(pct<0){dEl.className="delta flat";} }
+  // (calculado em api/build_series.py pelas leituras do Places; a variação compara o ritmo por dia,
+  //  porque quando a borda cai num dia sem leitura a janela anterior fica com 29–32 dias)
+  var K=DIARIO.kpi||{}, dEl=document.getElementById("kpi30delta");
+  document.getElementById("kpi30").textContent=(K.n==null?"—":K.n);
+  if(K.pct!=null){
+    dEl.textContent=(K.pct>=0?"＋":"–")+Math.abs(K.pct)+"%"; if(K.pct<0){dEl.className="delta flat";}
+    dEl.parentNode.title=K.n+" em "+K.dias+" dias × "+K.ant+" em "+K.dias_ant+" dias antes ("+fmt(pd(K.desde))+" a "+fmt(pd(K.ate))+"), comparando a média por dia";
+  } else { dEl.textContent="—"; dEl.className="delta flat"; }
 
 
-  // rating evolution (illustrative months)
-  var rl=[4.42,4.44,4.43,4.47,4.5,4.49,4.52,4.55,4.54,4.57,4.58,4.6];
+  // ===== EVOLUÇÃO DA NOTA — média exata no fim de cada mês (NOTA_MES, dados reais) =====
+  // NOTA_MES: [data, média com 6 casas, (data da leitura de estrelas, se for de outro dia)]
   (function(){
-    var w=420,h=170,pl=26,pr=8,pt=14,pb=22, min=4.3,max=4.7;
-    var iw=w-pl-pr, ih=h-pt-pb, n=rl.length;
-    function X(i){return pl+(i/(n-1))*iw;} function Y(v){return pt+ih-((v-min)/(max-min))*ih;}
-    var line="", area="M"+pl+" "+(pt+ih);
+    var pts=NOTA_MES, rl=pts.map(function(p){return p[1];}), n=rl.length;
+    var last=rl[n-1];
+    var dec=Math.round(last*10);                                 // nota que o Google mostra (x10)
+    var alvo=dec<50?(dec+0.5)/10:null;                           // ex.: 4,65 -> passa a mostrar 4,7
+    var lo=Math.min.apply(null,rl), hi=Math.max.apply(null,rl.concat(alvo?[alvo]:[]));
+    var min=Math.floor((lo-0.004)*100)/100, max=Math.ceil((hi+0.004)*100)/100;
+    if(max-min<0.02) max=min+0.02;
+    var step=(max-min)>0.08?0.05:((max-min)>0.04?0.02:0.01);
+    var w=420,h=170,pl=34,pr=8,pt=14,pb=22, iw=w-pl-pr, ih=h-pt-pb;
+    var t0=+pd(pts[0][0]), t1=+pd(pts[n-1][0]);
+    function X(i){ return pl+((+pd(pts[i][0])-t0)/Math.max(1,t1-t0))*iw; }   // posição pela data
+    function Y(v){ return pt+ih-((v-min)/(max-min))*ih; }
+    function br(v,c){ return v.toFixed(c).replace(".",","); }
+    function tr3(v){ return br(Math.floor(v*1000+1e-9)/1000,3); }   // trunca: 4,6498 -> 4,649 (nunca 4,650 antes da hora)
+    function mes(iso){ var d=pd(iso); return MES[d.getMonth()]+"/"+String(d.getFullYear()).slice(2); }
+    function rot(i){ var p=pts[i], t=(i===n-1?"hoje":"fim de "+mes(p[0]))+": "+tr3(p[1]);
+      return p[2]? t+" (estrelas lidas em "+fmt(pd(p[2]))+")" : t; }
+    var line="", area="M"+pl+" "+(pt+ih), g="";
+    for(var v=Math.ceil(min/step-1e-9)*step; v<=max+1e-9; v+=step){
+      var y=Y(v).toFixed(1);
+      g+='<line class="grid-line" x1="'+pl+'" y1="'+y+'" x2="'+(w-pr)+'" y2="'+y+'"/><text class="rl-lab" x="'+(pl-5)+'" y="'+(+y+3)+'" text-anchor="end">'+br(v,2)+'</text>';
+    }
+    if(alvo){ var ya=Y(alvo).toFixed(1);
+      g+='<line class="camp-line" x1="'+pl+'" y1="'+ya+'" x2="'+(w-pr)+'" y2="'+ya+'"/><text class="camp-tag" x="'+(pl+4)+'" y="'+(+ya-4)+'">'+br(alvo,2)+' → Google mostra '+br((dec+1)/10,1)+'</text>'; }
     rl.forEach(function(v,i){ var x=X(i).toFixed(1),y=Y(v).toFixed(1); line+=(i?"L":"M")+x+" "+y+" "; area+="L"+x+" "+y+" "; });
     area+="L"+(pl+iw)+" "+(pt+ih)+"Z";
-    var g="";
-    [4.4,4.5,4.6].forEach(function(v){ var y=Y(v).toFixed(1); g+='<line class="grid-line" x1="'+pl+'" y1="'+y+'" x2="'+(w-pr)+'" y2="'+y+'"/><text class="rl-lab" x="'+(pl-5)+'" y="'+(+y+3)+'" text-anchor="end">'+v.toFixed(1).replace(".",",")+'</text>'; });
-    var last=n-1;
-    g+='<path class="rl-area" d="'+area+'"/><path class="rl-line" d="'+line.trim()+'"/><circle class="rl-dot" cx="'+X(last).toFixed(1)+'" cy="'+Y(rl[last]).toFixed(1)+'" r="3.5"/>';
-    g+='<text class="rl-lab" x="'+pl+'" y="'+(h-6)+'">12 meses atrás</text><text class="rl-lab" x="'+(w-pr)+'" y="'+(h-6)+'" text-anchor="end">hoje</text>';
+    g+='<path class="rl-area" d="'+area+'"/><path class="rl-line" d="'+line.trim()+'"/>';
+    rl.forEach(function(v,i){
+      g+='<circle class="rl-dot" cx="'+X(i).toFixed(1)+'" cy="'+Y(v).toFixed(1)+'" r="'+(i===n-1?3.5:2.2)+'"><title>'+rot(i)+'</title></circle>';
+    });
+    // lançamento da campanha (08/07)
+    if(+CAMP>t0 && +CAMP<t1){ var cx=(pl+((+CAMP-t0)/(t1-t0))*iw).toFixed(1);
+      g+='<line class="grid-line" x1="'+cx+'" y1="'+pt+'" x2="'+cx+'" y2="'+(pt+ih)+'" stroke-dasharray="2 3"/><text class="rl-lab" x="'+(+cx-4)+'" y="'+(pt+ih-6)+'" text-anchor="end">campanha ▸</text>'; }
+    g+='<text class="rl-lab" x="'+X(n-1).toFixed(1)+'" y="'+(Y(last)-8).toFixed(1)+'" text-anchor="end" style="font-weight:700;fill:var(--accent)">'+tr3(last)+(pts[n-1][2]?'*':'')+'</text>';
+    g+='<text class="rl-lab" x="'+pl+'" y="'+(h-6)+'">'+mes(pts[0][0])+'</text><text class="rl-lab" x="'+(w-pr)+'" y="'+(h-6)+'" text-anchor="end">'+(pts[n-1][2]?"hoje* (estrelas de "+fmt(pd(pts[n-1][2]))+")":"hoje")+'</text>';
     document.getElementById("rateline").innerHTML=g;
   })();
 
