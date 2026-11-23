@@ -960,14 +960,14 @@
 
   // feed (real reviews)
   var reviews=[
-    {name:"Alex P.",n:5,d:"há 21 horas",t:"Ótimo lugar, atendimento excelente, educação, e encontramos tudo o que queremos.",ans:true},
-    {name:"Julio P.",n:5,d:"há 5 dias",t:"Ótimo",ans:true},
+    {name:"Núbia",n:5,d:"ontem",t:"Excelente atendimento da Shirley e do relojoeiro Márcio! Ambos foram muito atenciosos e prestativos. Preço justo com serviço de qualidade.",mention:"Shirley",ans:true},
+    {name:"Alex P.",n:5,d:"há 6 dias",t:"Ótimo lugar, atendimento excelente, educação, e encontramos tudo o que queremos.",ans:true},
+    {name:"Julio P.",n:5,d:"há 1 semana",t:"Ótimo",ans:true},
     {name:"Lina H.",n:5,d:"há 2 semanas",t:"Atendimento honesto e excepcional do Charles. Serviço perfeito, preço justo, consertam na hora! Encantada! Recomendo muito!",mention:"Charles",ans:true},
     {name:"Juan C.",n:5,d:"há 2 semanas",t:"Breno quem me atendeu: atendimento excepcional, muito educado e atencioso. Está de parabéns o vendedor. A loja também tem excelentes preços.",mention:"Breno",ans:true},
     {name:"Marci F.",n:5,d:"há 2 semanas",t:"O atendimento da vendedora Lúcia Helena é extraordinário. (Amo.) Muito atenciosa e educada.",mention:"Lúcia Helena",ans:true},
     {name:"Lili B.",n:5,d:"há 2 semanas",t:"Excelente atendimento, além da honestidade em avaliar os relógios para manutenção/conserto.",ans:true},
-    {name:"Sheila V.",n:5,d:"há 2 semanas",t:"O atendimento de todos é muito bom. O Silvio sempre me atendeu de forma excelente. Da última vez, a Taís foi excepcional.",mention:"Silvio",ans:true},
-    {name:"Jacqueline B.",n:5,d:"há 4 semanas",t:"Amo esta loja! O atendimento é impecável, com ótimos profissionais. Compro aqui há anos: baterias que duram muito e relógios de todos os tipos. Agradeço à vendedora Shirley Mendes pelo atendimento impecável, com muita paciência e cordialidade, e à Ana, que me explicou com muita paciência o passo a passo do relógio de mesa que comprei. Desejo a vocês muita saúde e prosperidade!",mention:"Shirley",ans:true}
+    {name:"Sheila V.",n:5,d:"há 3 semanas",t:"O atendimento de todos é muito bom. O Silvio sempre me atendeu de forma excelente. Da última vez, a Taís foi excepcional.",mention:"Silvio",ans:true}
   ];
   function starRow(n){ var s=""; for(var i=1;i<=5;i++){ s+='<span class="'+(i<=n?"":"off")+'">★</span>'; } return s; }
   var AV_CORES=["#4B49A8","#0F8A7E","#B5761A","#B04A64","#2E7D4F","#6D4C9E","#2C6BAF","#8A5A3C"];
@@ -1099,11 +1099,19 @@
   var API_CONECTADA = false;   // vira true quando a API do Google Business Profile conectar (ai o botao Responder publica direto)
 
   var admData=[
-    {who:"Alex Peixoto",n:5,d:"há 21 horas",men:"",ans:true,
+    {who:"Núbia",n:5,d:"ontem",men:"Shirley",ans:true,
+     t:"Excelente atendimento da Shirley e do relojoeiro Márcio! Ambos foram muito atenciosos e prestativos. Preço justo com serviço de qualidade.",
+     s:["Olá, Núbia! Muito obrigado pelo carinho. A Shirley e o Márcio vão adorar o seu elogio! 😊 — Equipe Rei dos Estojos",
+        "Oi, Núbia! Ficamos felizes com o atendimento da Shirley e do Márcio. Volte sempre! — Equipe Rei dos Estojos"]},
+    {who:"Francis Harley",n:5,d:"há 2 dias",men:"",ans:true,
+     t:"(sem texto — só nota 5★)",
+     s:["Olá, Francis! Obrigado pelas 5 estrelas. 😊 Volte sempre! — Equipe Rei dos Estojos",
+        "Oi, Francis! Agradecemos a sua avaliação e a preferência. — Equipe Rei dos Estojos"]},
+    {who:"Alex Peixoto",n:5,d:"há 6 dias",men:"",ans:true,
      t:"Ótimo lugar, atendimento excelente, educação, e encontramos tudo o que queremos.",
      s:["Olá, Alex! Muito obrigado pelas 5 estrelas. Que bom que encontrou tudo o que procurava! 😊 — Equipe Rei dos Estojos",
         "Oi, Alex! Ficamos felizes com o seu elogio ao atendimento. Volte sempre! — Equipe Rei dos Estojos"]},
-    {who:"Julio Pousas Junior",n:5,d:"há 5 dias",men:"",ans:true,
+    {who:"Julio Pousas Junior",n:5,d:"há 1 semana",men:"",ans:true,
      t:"Ótimo",
      s:["Olá, Julio! Muito obrigado pelas 5 estrelas. 😊 Volte sempre! — Equipe Rei dos Estojos",
         "Oi, Julio! Ficamos felizes que tenha gostado. Agradecemos a preferência! — Equipe Rei dos Estojos"]},
@@ -1123,22 +1131,14 @@
      t:"Excelente atendimento, além da honestidade em avaliar os relógios para manutenção/conserto.",
      s:["Olá, Lili! Obrigado pela confiança. Honestidade é o nosso compromisso. 😊 — Equipe Rei dos Estojos",
         "Oi, Lili! Ficamos felizes com a sua avaliação. Volte sempre! — Equipe Rei dos Estojos"]},
-    {who:"Sheila Vitória Lopes Siqueira",n:5,d:"há 2 semanas",men:"Silvio",ans:true,
+    {who:"Sheila Vitória Lopes Siqueira",n:5,d:"há 3 semanas",men:"Silvio",ans:true,
      t:"O atendimento de todos é muito bom. O Silvio sempre me atendeu de forma excelente. Da última vez, a Taís foi excepcional.",
      s:["Olá, Sheila! Muito obrigado pelo carinho. O Silvio e a Taís vão adorar saber! 😊 — Equipe Rei dos Estojos",
         "Oi, Sheila! Ficamos felizes com o seu elogio à equipe, em especial ao Silvio e à Taís. Volte sempre! — Equipe Rei dos Estojos"]},
-    {who:"Michel Ribeiro",n:1,d:"há 3 semanas",men:"",ans:true,att:true,
+    {who:"Michel Ribeiro",n:1,d:"há 4 semanas",men:"",ans:true,att:true,
      t:"Levei dois relógios para reparo na loja. O orçamento ficou em R$ 1.930,00 pelos dois. Levei os mesmos relógios em outra loja e o orçamento ficou em R$ 130,00. Mandei arrumar há 3 semanas nessa outra loja e estão ótimos. Não recomendo a loja.",
      s:["Olá, Michel. Sentimos muito que o orçamento não tenha atendido à sua expectativa. Nossos reparos usam peças originais e têm garantia, o que pode explicar a diferença de valor, mas gostaríamos de entender melhor o seu caso. Pode nos chamar no (31) 3271-4631? Ficamos à disposição. — Equipe Rei dos Estojos",
         "Oi, Michel. Lamentamos a experiência e agradecemos o retorno. Buscamos sempre a transparência nos orçamentos e queremos rever o que aconteceu com os seus relógios. Fale conosco no (31) 3271-4631 para resolvermos isso juntos. — Equipe Rei dos Estojos"]},
-    {who:"Ana Carolina Abreu",n:5,d:"há 4 semanas",men:"",ans:true,
-     t:"(sem texto — só nota 5★)",
-     s:["Olá, Ana Carolina! Obrigado pelas 5 estrelas. 😊 Volte sempre! — Equipe Rei dos Estojos",
-        "Oi, Ana Carolina! Agradecemos a sua avaliação e a preferência. — Equipe Rei dos Estojos"]},
-    {who:"Jacqueline Barroso",n:5,d:"há 4 semanas",men:"Shirley",ans:true,
-     t:"Amo esta loja! O atendimento é impecável, com ótimos profissionais. Compro aqui há anos: baterias que duram muito e relógios de todos os tipos. Agradeço à vendedora Shirley Mendes pelo atendimento impecável, com muita paciência e cordialidade, e à Ana, que me explicou com muita paciência o passo a passo do relógio de mesa que comprei. Desejo a vocês muita saúde e prosperidade!",
-     s:["Olá, Jacqueline! Que alegria ler isso depois de tantos anos de parceria. A Shirley e a Ana vão adorar o carinho! 😊 — Equipe Rei dos Estojos",
-        "Oi, Jacqueline! Muito obrigado pela confiança de sempre. Vamos passar seu elogio à Shirley e à Ana. Volte sempre! — Equipe Rei dos Estojos"]},
     {who:"André Oliveira",n:1,d:"há 6 meses",men:"",ans:true,att:true,
      t:"Minha esposa levou o relógio para trocar a bateria; depois de desmontado, disseram que o ponteiro do cronógrafo estava solto e cobraram para colocar no lugar.",
      s:["Olá, André. Sentimos muito pela experiência. Em cronógrafos, é comum identificarmos folgas já existentes só na abertura, e por isso sempre avisamos antes de qualquer ajuste. Gostaríamos de entender melhor o seu caso — pode nos chamar no (31) 3271-4631? Ficamos à disposição para ajudar. — Equipe Rei dos Estojos",
